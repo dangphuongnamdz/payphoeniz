@@ -1,0 +1,138 @@
+<link rel="stylesheet" type="text/css" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/daterangepicker.min.css" />
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/daterangepicker.min.js"></script>
+<style>
+table tr:first-child {
+    background: #CECECE;
+}
+label.controll-label.col-sm-2 {
+    width: 200px;
+}
+
+#config-form {
+    width: 200px;
+    display: unset;
+}
+
+#config-demo {
+    width: 200px;
+}
+.box-row {
+    width: 33%;
+    float: left;
+    padding-top: 1em;
+}
+#submitbutton {
+    margin-left: 200px;
+    margin-bottom: 1em;
+    width: 200px;
+}
+.btn-export {
+    margin: 1em 0;
+}
+</style>
+<div class="col-lg-12">
+    <?php
+    $title = 'Lịch sử nạp thẻ';
+    $this->headTitle($title);
+    ?>
+    <h3><?php echo $this->escapeHtml($title); ?></h3>
+    <?php
+    $form = $this->form;
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    echo "<div class='box-row'>";
+    echo $this->formRow($form->get('in_transaction'));
+    echo "</div>";
+    echo "<div class='box-row'>";
+    echo $this->formRow($form->get('in_time'));
+    echo "</div>";
+    echo "<div class='box-row'>";
+    echo $this->formRow($form->get('in_status'));
+    echo "</div>";
+    echo "<div class='box-row'>";
+    echo $this->formRow($form->get('in_type'));
+    echo "</div>";
+    echo "<div class='box-row'>";
+    echo $this->formRow($form->get('in_product_id'));
+    echo "</div>";
+    echo "<div class='box-row'>";
+    echo $this->formRow($form->get('in_username'));
+    echo "</div>";
+    echo "<div class='box-row'>";
+    echo $this->formRow($form->get('in_serial'));
+    echo "</div>";
+    echo "<div class='box-row'>";
+    echo $this->formRow($form->get('in_code'));
+    echo "</div>";
+    echo "<div class='box-row'>";
+    echo $this->formSubmit($form->get('submit'));
+    echo "</div>";
+    echo $this->form()->closeTag();
+    if($this->result!=null){
+        echo '<a class="btn btn-success btn-export" href="/admin/statistic/exportcard">Export Excel</a>';
+    }?>
+    <hr>
+    <div class="clearfix"></div>
+    <h5><b ><u>Tổng tiền đã nạp: 
+    <?php if(isset($this->total))
+       echo number_format($this->total);
+    else
+       echo '0';?>
+    </u></b></h5>
+    <table class="table table-bordered">
+    <tr>   
+        <td>Transaction ID</td>
+        <td>Loại thẻ</td>
+        <td>Username</td>
+        <td>Game</td>
+        <td>Mệnh giá</td>
+        <td>Giá trị duy đổi</td>
+        <td>Mã lỗi thẻ</td>
+        <td>Thông báo lỗi</td>
+        <td>Ngày thực hiện</td>	
+    </tr>
+    <?php if($this->result!=null){foreach ($this->result as $row) : ?>
+    <tr>
+        <td><a href="<?php echo '/admin/statistic/detailcardGetHistory?id='.$row->transaction_id;?>"  target="_blank"><?php echo $row->transaction_id?></a></td>
+        <td><?php echo $row->card_type?></td>
+        <td><?php echo $row->username?></td>
+        <td><?php 
+        for($i=0; $i < count($this->products); $i++){
+            if($this->products[$i]['agent']==$row->product_id)
+                echo $this->products[$i]['name'];
+        }
+        ?></td>
+        <td><?php echo ($row->amount!='')?number_format($row->amount):''?></td>
+        <td><?php echo ($row->gold!='')?number_format($row->gold):''?></td>
+        <td><?php echo $row->card_status?></td>
+        <td><?php echo $row->card_message?></td>
+        <td><?php echo $row->create_date?></td>
+    </tr>
+    <?php endforeach; }else{ echo "<tr><td colspan='9'>Không có dữ liệu</td></tr>";}?>
+    </table>
+    <?php if(isset($this->pages)){ ?>
+    <ul class="pagination">
+        <?php for($i = 1; $i <= (int) $this->pages ; $i++){?>
+        <?php if($this->current_page == $i){?>
+            <li class="active"><a href="<?php echo '/admin/statistic/cardGetHistory?page='.$this->current_page;?>"><?php echo $this->current_page ?></a></li>
+        <?php }else{?>
+            <li><a href="<?php echo '/admin/statistic/cardGetHistory?page='.$i;?>"><?php echo $i ?></a></li>
+        <?php } }?>
+    </ul>
+    <?php } ?>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() { 
+		updateConfig();
+		function updateConfig() { 
+			$('#config-demo').daterangepicker({
+                format: 'dd/mm/yyyy',
+                <?php if(!$status){?>
+                startDate: moment().subtract(0, 'day')
+                <?php }?>
+            }); 
+		}
+	});
+</script>

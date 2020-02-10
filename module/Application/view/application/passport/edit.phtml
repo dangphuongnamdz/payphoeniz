@@ -1,0 +1,264 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script type="text/javascript" src="js/combodate.js"></script>
+<style>
+.box {
+    width: 60%;
+}
+.controll-label {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    width: 100%;
+    display: block;
+    font-size: 15px;
+    font-weight: unset;
+    padding-right: 0;
+    padding-left: 0;
+}
+.form-control {
+    box-shadow: none;
+    padding: 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 4px;
+    height: 35px;
+    font-size: 16px;
+}
+input#submitbutton {
+    background: #0e90d2;
+    border: 0;
+    color: #fff;
+    margin-top: 1em;
+    width: 30%;
+    padding: 8px;
+    display: block;
+    text-transform: uppercase;
+}
+
+legend {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    width: 30%;
+    float: left;
+    font-size: 15px;
+    font-weight: unset;
+    padding-right: 0;
+    padding-left: 0;
+    border: 0;
+    margin: 0;
+}
+#labelsex {
+    width: 30%;
+    float: left;
+}
+
+fieldset {
+    padding: 8px 0px;
+}
+h4 {
+    background: #eee;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+    color: #a0a0a0;
+    line-height: 100%;
+    font-weight: bolder;
+    font-size: 16px;
+    padding-left: 10px;
+    border-left: 10px solid #a0a0a0;
+}
+.day, .month, .year {
+    float: left;
+    margin-right: 1em;
+}
+
+span.combodate {
+    width: 70%;
+    float: left;
+}
+#loading {
+    font-size: 2em;
+    width: 20%;
+    padding: 2px;
+    margin-top: 10px;
+    float: left;
+    text-align: center;
+}
+@media screen and (min-width: 461px) and (max-width: 1200px) { 
+    .labelBirthday {
+        display: block;
+        float: unset;
+        width: 100%;
+        height: 30px;
+    }
+    span.combodate {
+        display: block;
+        float: unset;
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 460px){
+    .labelBirthday {
+        display: block;
+        float: unset;
+        width: 100%;
+    }
+
+    span.combodate {
+        width: 100%;
+        float: unset;
+        display: block;
+        height: auto;
+        padding-bottom: 10px;
+    }
+
+    .day, .month, .year {
+        float: unset;
+        display: block;
+    }
+    legend {
+        width: 100%;
+        margin: 0;
+    }
+}
+</style>
+<?php
+ $title = 'Cập nhập thông tin';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+ <?php
+ echo "<div class='clearfix'></div>";
+ if ($this->messages!=""){
+    echo '<br><div class="alert alert-info">'.$messages.'</div>';
+ }
+ $form->prepare();
+ echo $this->form()->openTag($form);
+ echo "<h4>Thông tin cá nhân</h4>";
+ echo $this->formHidden($form->get('username'));
+ echo $this->formRow($form->get('fullname'));
+ echo $this->formRow($form->get('sex'));
+ echo $this->formRow($form->get('birthday'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('address'));
+ echo $this->formRow($form->get('city'));
+ echo $this->formRow($form->get('company'));
+ echo $this->formRow($form->get('companyAddress')); 
+ echo "<h4>Thông tin chứng thực</h4>";
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('identityNumber'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('identityDate'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('identityPlace'));
+ echo "<div class='clearfix'></div>";
+ echo "<h4>Thông tin bảo vệ</h4>";
+ echo $this->formRow($form->get('mobile'));
+ echo $this->formRow($form->get('email'));
+ echo $this->formSubmit($form->get('submit'));
+ echo "<div id='loading'><i class='fa fa-spinner fa-spin'></i></div>";
+ echo $this->form()->closeTag();
+?>
+<script>
+    $(function() {
+        $('#birthday').combodate({
+            customClass: 'form-control',
+            value: new Date(),
+            minYear: 1960,
+            maxYear: moment().format('YYYY')  - 18 
+        });
+    });
+</script>
+<script>
+    $(function() {
+        $('#identityDate').combodate({
+            customClass: 'form-control',
+            value: new Date(),
+            minYear: 1960,
+            maxYear: moment().format('YYYY')  
+        });
+    });
+</script>
+<script>
+$(document).ready(function() {
+    $('#date').combodate();   
+    $(window).on('beforeunload', function(){
+        $("#loading").show();   
+    });
+    $("#user").validate({
+        rules: {
+            username: {
+                required: true,
+                minlength: 6,
+                maxlength: 24,
+            },
+            email: {
+                required: true,
+                minlength: 6,
+                maxlength: 45,
+            },
+            fullname: {
+                required: false,
+                maxlength: 50,
+            },
+            identityNumber: {
+                required: false,
+                minlength: 9,
+                maxlength: 12,
+            },
+            mobile: {
+                required: false,
+                maxlength: 12,
+            },
+            address: {
+                required: false,
+                maxlength: 200,
+            },
+            city: {
+                required: false,
+                maxlength: 200,
+            },
+            company: {
+                required: false,
+                maxlength: 50,
+            },
+            companyAddress: {
+                required: false,
+                maxlength: 200,
+            },
+        },
+        messages: {
+            username: {
+                required: "Vui lòng nhập username",
+                minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 24 ký tự"
+            },
+            email: {
+                required: "Vui lòng nhập email",
+                minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 45 ký tự"
+            },
+            fullname: {
+                maxlength: "Vui lòng nhập ít hơn 50 ký tự"
+            },
+            identityNumber: {
+                minlength: "Vui lòng nhập ít hơn 9 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 12 ký tự"
+            },
+            mobile: {
+                maxlength: "Vui lòng nhập ít hơn 12 ký tự"
+            },
+            address: {
+                maxlength: "Vui lòng nhập ít hơn 200 ký tự"
+            },
+            city: {
+                maxlength: "Vui lòng nhập ít hơn 2 ký tự"
+            },
+            company: {
+                maxlength: "Vui lòng nhập ít hơn 50 ký tự"
+            },
+            companyAddress: {
+                maxlength: "Vui lòng nhập ít hơn 200 ký tự"
+            },
+        }
+    });
+});
+</script>

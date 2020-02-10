@@ -1,0 +1,8 @@
+authenticatePassport #agent:m001 #username:hanhtau001 #status: 1
+authenticatePassport #agent:m001 #username:hanhtau002 #status: 1
+authenticatePassport #agent:m001 #username:hanhtau0011 #status: 1
+authenticatePassport #agent:m001 #username:htgh001 #status: -17
+authenticatePassport #agent:m001 #username:htgh001 #status: -17
+authenticatePassport #agent:m001 #username:htgh001 #status: -17
+authenticatePassport #agent:m001 #username:htgh001 #status: -17
+authenticatePassport #agent:m001 #username:htgh0001 #status: 1

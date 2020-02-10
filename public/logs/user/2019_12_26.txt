@@ -1,0 +1,3 @@
+authenticatePassport #agent:m001 #username:testcuongthan #status: 1
+authenticatePassport #agent:m001 #username:testcuongthan #status: 1
+authenticatePassport #agent:m001 #username:tuoiblack #status: 1

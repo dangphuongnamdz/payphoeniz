@@ -1,0 +1,283 @@
+<style>
+h2{
+    display: block;
+    padding: 0;
+    margin-bottom: 20px;
+    font-size: 26px;
+    line-height: inherit;
+    text-align: center;
+    color: #333;
+    border: 0;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 10px 0;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+.form-group {
+    margin-bottom: 0;
+    padding: 10px 0;
+}
+.controll-label {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.form-control {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-width: 1px;
+    min-height: 35px;
+    height: auto;
+}
+.btn {
+    width: 100px;
+    height: 40px;
+    padding: 10px 16px;
+    border-radius: 3px;
+    min-width: 80px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    margin: 15px;
+}
+
+.btn:hover {
+    background-color: #006cca;
+    border-color: #006cca;
+}
+.hd-Form {
+    padding: 15px 15px;
+    font-size: 18px;
+    font-weight: bold;
+    display: block;
+}
+.check
+{
+    opacity:0.2;
+	color:#996;
+}
+.check::before
+{
+    content: '';
+}
+.box{
+    margin-bottom:5px;
+    cursor: pointer;
+}
+.panel-title>a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    display: block;
+}
+.panel h3 {
+    font-size: 16px;
+    text-align: center;
+    color: red;
+    font-weight: bold;
+    display: block;
+}
+i.fa.fa-spinner.fa-spin {
+    margin: 0px 15px;
+    font-size: 22px;
+}
+.box {
+    width: 100%;
+    float: unset;
+}
+.hd-Form {
+    padding-left: 0;
+}
+#list_server{
+    padding-left:0;
+}
+.message-alert {
+    margin-top: 12px;
+    color: #F44336;
+    font-size: 14px;
+    padding: 0 5px;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+}
+</style>
+<?php
+ $title = 'Nạp thẻ '.$this->name;
+ $this->headTitle($title);
+ ?>
+ <h2><?php echo $this->name?></h2>
+ <?php
+ $form->prepare();
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('agent'));
+ echo "<i class='fa fa-spinner fa-spin' style='display: none'></i>";
+ echo "<div class='hd-Form'> Bước 1: Chọn thông tin nhân vật (*)</div>";
+ echo $this->formRow($form->get('server_list'));
+
+ echo "<div id='appentHtml'></div>";
+ echo "<div class='clearfix'></div>";
+ ?>
+ <input type="hidden" value="<?php echo ($this->id_user!='')?$this->id_user:''; ?>" name="id_user" id="id_user"/>
+<div class='hd-Form'> Bước 2: Chọn phương thức thanh toán (*)</div>
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default" style="display: none;">
+        <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Nạp Zalo Pay</a>
+        </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+        <h3>Kênh nạp thẻ này đang tạm đóng</h3>
+        <h2>collapseOne</h2>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Nạp thẻ Cào</a>
+        </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in">
+        <label for="in_type" class="col-sm-12 controll-label">
+            <span>Loại thẻ</span>
+            <select name="in_type" class="form-control">
+                <option value="HPC">HPCode</option>
+                <option value="GATE">GATE</option>
+                <?php if($this->agent!='m005'){?>
+                    <option value="VTC">VCOIN</option>
+                <?php } ?>
+            </select>
+            </label>
+        <?php
+            // echo $this->formRow($form->get('in_type'));
+            echo $this->formRow($form->get('in_serie'));
+            echo $this->formRow($form->get('in_pin'));
+            echo $this->formSubmit($form->get('submit'));?>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Nạp thẻ ATM/iBanking</a>
+        </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+            <?php 
+                echo $this->formRow($form->get('amount_pay'));
+                echo $this->formSubmit($form->get('submit'));?>
+        </div>
+    </div>
+    <div class="message-alert"><?php echo $this->messagesSale;?></div>
+
+</div>
+ <?php echo "<div id='loading'><i class='fa fa-spinner fa-spin'></i></div>";
+ echo $this->form()->closeTag();
+ echo "<div class='clearfix'></div>";
+ if ($this->messages!=""){
+    echo '<br><div class="alert alert-danger">'.$messages.'</div>';
+}
+echo $this->form()->closeTag();
+?>
+
+<script>
+$("#server_list" ).change(function() {
+    $(".fa").show();
+    document.getElementById('server_list').setAttribute("disabled","disabled");
+    document.getElementById('submitbutton').setAttribute("disabled","disabled");
+    console.log($(this).val());
+    console.log($("#agent").val());
+    $.post("payment/getrole.html", {
+        server_id: $(this).val(),
+        id_user: $('#id_user').val(),
+        agent: $("#agent").val(),
+    },function(result){
+        $(".fa").hide();
+        document.getElementById('server_list').removeAttribute("disabled");
+        document.getElementById('submitbutton').removeAttribute("disabled");
+        document.getElementById("appentHtml").innerHTML = "";
+        document.getElementById("appentHtml").innerHTML = "<div class='clearfix'></div>"+result['result'];
+    }, 'json');
+});
+$(document).ready(function(e){
+    $('.img-check').click(function(e) {
+        $('.img-check').not(this).removeClass('check')
+            .siblings('input').prop('checked',false);
+        $(this).addClass('check')
+            .siblings('input').prop('checked',true);
+    }); 
+});
+$(document).ready(function() {
+    $(window).on('beforeunload', function(){
+        $(".fa").show(); 
+    });
+
+    $("#napgold").validate({
+        rules: {
+            in_serie: {
+                required: true,
+                minlength: 6,
+                maxlength: 24
+            },
+            in_pin: {
+                required: true,
+                minlength: 6,
+                maxlength: 24
+            },
+            in_type: {
+                required: true
+            },
+            role_id: {
+                required: true
+            },
+            server_list: {
+                required: true
+            },
+            amount_pay: {
+                required: true
+            }
+        },
+        messages: {
+            in_serie: {
+                required: "Vui lòng nhập serie",
+                minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 24 ký tự"
+            },
+            in_pin: {
+                required: "Vui lòng nhập mã thẻ",
+                minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 24 ký tự"
+            },
+            in_type: {
+                required: 'Vui lòng nhập loại thẻ'
+            },
+            role_id: {
+                required: 'Vui lòng chọn nhân vật'
+            },
+            server_list: {
+                required: 'Vui lòng chọn server'
+            },
+            amount_pay: {
+                required: 'Vui lòng chọn mệnh giá'
+            }
+        }
+    });
+});
+</script>

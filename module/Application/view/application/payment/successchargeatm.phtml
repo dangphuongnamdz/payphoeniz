@@ -1,0 +1,45 @@
+<div class="col-lg-12">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+h5.mb-1 {
+    font-weight: bold;
+}
+
+.d-flex.w-100.justify-content-between {
+    width: 200px;
+    float: left;
+}
+
+p.mb-1 {
+    float: left;
+    width: 500px;
+    line-height: 30px;
+}
+
+.list-group-item.list-group-item-action.flex-column.align-items-start {
+    min-height: 100px;
+    font-size: 14px;
+    line-height: 25px;
+}
+</style>
+<?php
+ $title = 'Balance account';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+
+ <div class="list-group">
+    <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Số dư của bạn:</h5>
+        <p class="mb-1"><?php echo ($this->balance!='')?number_format($this->balance):'0'; ?> <u>đ</u></p>
+        </div>
+        
+    </div>
+ </div>

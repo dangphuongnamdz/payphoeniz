@@ -1,0 +1,49 @@
+<div class="col-lg-12">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+label.col-sm-12.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+}
+.btn-basic{
+    color: #3D3D3D;
+    font-weight: bolder;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+</style>
+<?php
+
+ $title = 'Delete danh mục';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+
+ <p>Bạn có chắc muốn xóa
+     '<?php echo $this->escapeHtml($category->tendanhmuc); ?>'?
+ </p>
+ <?php
+ $url = $this->url('admincategory', array(
+     'action' => 'delete',
+     'id'     => $this->id,
+ ));
+ ?>
+ <form action="<?php echo $url; ?>" method="post">
+ <div>
+     <input type="hidden" name="id" value="<?php echo (int) $category->id; ?>" />
+     <input type="submit" name="del" value="Yes" />
+     <input type="submit" name="del" value="No" />
+ </div>
+ </form>
+ </div>

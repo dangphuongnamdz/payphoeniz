@@ -1,0 +1,10 @@
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-10000","date":"04:34:49 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-10000","date":"04:35:34 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-10000","date":"04:40:09 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-10000","date":"04:57:41 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-30000","date":"05:01:30 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-10000","date":"05:04:44 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-40000","date":"05:08:19 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-90000","date":"05:08:42 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-50000","date":"05:21:56 15-01-2020"}
+{"function":"Compensation","ip":"127.0.0.1","action":"Compensation tuoiblack-m005-10000","date":"05:29:43 15-01-2020"}

@@ -1,0 +1,23 @@
+<div class="col-lg-12 main">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+</style>
+<?php
+ $title = 'Thông báo bảo trì';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+ <div class="list-group">
+    <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">Sản phẩm này hiện đang bảo trì hoặc chưa phát hành</h5>
+        </div>
+    </div>
+ </div>
+</div>

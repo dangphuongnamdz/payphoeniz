@@ -1,0 +1,22 @@
+<?php
+ $title = $post->title;
+ $this->headTitle($title);
+ ?>
+<div class="container-fuild slider">
+    <?php if($this->post->avatar!=null){?>
+        <img src="./img/assets/<?php echo $this->post->avatar?>" alt="" style="width:100%;" class="slide_desktop">
+    <?php }?>
+    <?php if($this->post->avatar_mobile!=null){?>
+        <img src="./img/assets/<?php echo $this->post->avatar_mobile?>" alt="" style="width:100%;" class="slide_mobile">
+    <?php }?>
+</div>
+<div class="container content">
+    <h3><?php echo $this->post->title?></h3>
+    <div class="desc">
+        <span><?php echo $this->post->fullname?></span>
+        <span><?php echo date('H:i d-m-Y', strtotime($this->post->created_at)) ?></span>
+    </div>
+    <div class="main-content">
+    <?php echo $this->post->content?>
+    </div>
+</div>

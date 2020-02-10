@@ -1,0 +1,405 @@
+body {
+    background-color: #333;
+}
+
+.box {
+    width: 100%;
+}
+
+.message-item {
+    margin-bottom: 25px;
+    margin-left: 40px;
+    position: relative;
+}
+
+.message-item .message-inner {
+    background: #b7b5b5;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 10px;
+    position: relative;
+}
+
+.message-item .message-inner:before {
+    border-right: 10px solid #b7b5b5;
+    border-style: solid;
+    border-width: 10px;
+    color: rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    left: -20px;
+    top: 6px;
+    width: 0;
+}
+
+#accRole .message-inner:before,
+#accRole .message-inner:after,
+#accType .message-inner:before,
+#accType .message-inner:after {
+    display: none;
+}
+
+.message-item .message-inner:after {
+    border-right: 10px solid #b7b5b5;
+    border-style: solid;
+    border-width: 10px;
+    color: rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    left: -18px;
+    top: 6px;
+    width: 0;
+}
+
+.message-item:after {
+    background: #b7b5b5;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    content: "";
+    height: 25px;
+    left: -42px;
+    position: absolute;
+    top: 10px;
+    width: 25px;
+    padding-left: 6px;
+    color: #ad4449;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#accRole:after,
+#accType:after {
+    display: none;
+}
+
+.message-item:nth-child(3):after {
+    content: "1" !important;
+}
+
+.message-item:nth-child(4):after {
+    content: "2" !important;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.message-item .message-head {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+
+.message-item .message-head .user-detail {
+    overflow: hidden;
+}
+
+.message-item .message-head .user-detail h5 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    width: auto;
+    float: left;
+	padding-top:5px;
+}
+.message-item .message-head .user-detail p, .message-item .message-head .user-detail p:hover {
+    padding:5px 15px;
+	margin:0 10px;
+	text-decoration:none;
+	color:#777;
+	float:left;
+	height:30px;
+}
+
+.message-item .message-head .user-detail .tab {
+    background-color:#fff;
+	border-radius:15px;
+}
+.message-item .message-head .user-detail .tab:hover {
+    background-color:#0e90d2;
+	color:#fff;
+}
+.message-item .message-head .user-detail h6 {
+    font-size: 16px;
+    font-weight: bold;
+    width: auto;
+    font-style: italic;
+    float: left;
+    margin: 0;
+    padding-left: 1em;
+}
+
+.message-item .handle-acc-role {
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#wallmessages {
+    margin-top: 1em;
+}
+
+.input-group-prepend {
+    position: absolute;
+    margin-top: 8px;
+    margin-left: 8px;
+}
+
+#username,
+#cardNumber {
+    padding-left: 25px;
+}
+
+.img-check {
+    width: 100%;
+    padding: 1em;
+    cursor: pointer;
+    border: 0;
+    background: unset;
+}
+
+.check {
+    opacity: 0.2;
+    color: #996;
+}
+
+.check::before {
+    content: '';
+}
+
+#tab_card_pay {
+    width: 50%;
+}
+
+.divserverList {
+    width: 35%;
+    float: left;
+    margin-right: 5%;
+}
+
+div#appentHtml {
+    float: left;
+    width: 35%;
+}
+
+label#list_server {
+    padding: 0;
+}
+
+h2 {
+    color: #b7b5b5;
+    font-size: 18px;
+    font-weight: bolder;
+    font-style: normal;
+}
+
+.item-box {
+    float: unset;
+    display: inline-block;
+    padding: 0;
+}
+
+@media only screen and (max-width: 1024px) {
+    #tab_card_pay {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 680px) {
+    .divserverList {
+        width: 100%;
+        float: unset;
+        display: block;
+    }
+    div#appentHtml {
+        width: 100%;
+        float: unset;
+        display: block;
+    }
+    .message-item .message-head .user-detail h5 {
+        display: block;
+        float: unset;
+        font-size: 13px;
+    }
+    .message-item .message-head .user-detail h6 {
+        display: block;
+        float: unset;
+        font-size: 13px;
+        padding: 0;
+        padding-top: 5px;
+    }
+    .item-box {
+        width: 100%;
+        display: block;
+    }
+}
+
+#accRang {
+    display: none;
+}
+
+p#sumServer,
+p#sumInfo {
+    margin: 0;
+}
+
+.loading {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #333;
+    opacity: .7;
+}
+
+.loading i {
+    font-size: 4em;
+    color: #fff;
+    top: 44%;
+    left: 44%;
+    position: absolute;
+}
+
+.error {
+    padding: 0;
+    margin: 0;
+}
+
+
+/* The Modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #ffffff;
+    float: left;
+    font-size: 14px;
+    padding: 8px 10px;
+    border-radius: 4px;
+    text-shadow: none;
+    opacity: 1;
+    text-decoration: none;
+    cursor: pointer;
+    margin-top: .5em;
+    font-weight: normal;
+}
+
+.close:hover,
+.close:focus {
+    color: #dadada;
+    font-weight: bold;
+}
+
+.modal-content h1 {
+    font-size: 22px;
+    padding: 6px 0;
+}
+
+.tab-Switch {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+}
+
+.tab-Switch .actived {
+    color: #ffffff;
+    text-decoration: none;
+    padding-right: 10px;
+    cursor: unset;
+}
+
+.tab-Switch a {
+    color: #0e90d2;
+    padding-right: 10px;
+}
+
+.btn:focus {
+    outline: none !important;
+    border: 0 !important;
+    ;
+}
+
+.collapse-group a:hover,
+.collapse-group a:visited,
+.collapse-group a:link,
+.collapse-group a:active {
+    text-decoration: none;
+}
+
+.collapse-group {
+    padding: 5px;
+}
+
+.panel-title .trigger:before {
+    content: '\e082';
+    font-family: 'Glyphicons Halflings';
+    vertical-align: text-bottom;
+}
+
+.panel-title .trigger.collapsed:before {
+    content: '\e081';
+}
+
+.logo-napas {
+    width: 120px;
+    height: 34px;
+    margin-top: .5em;
+    margin-left: .5em;
+}
+
+.controll-label {
+    display: block;
+    width: 100%;
+    padding: 0;
+}
+
+#btnXacnhan {
+    width: 160px;
+    white-space: normal;
+}
+
+#loaddingAgent {
+    display: none;
+}
+
+.message-alert {
+    color: #F44336;
+    font-size: 14px;
+    padding: 0 5px;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+}

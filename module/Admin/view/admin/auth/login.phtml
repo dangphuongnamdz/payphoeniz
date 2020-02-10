@@ -1,0 +1,109 @@
+
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', $this->url(
+        'login/process',
+        array(
+            'action'     => 'authenticate',
+        )
+    ));
+    $form->setAttribute('class', 'form-signin');
+    $form->prepare();
+    echo $this->form()->openTag($form);
+?>
+    <h2 class="form-signin-heading">Đăng nhập hệ thống</h2>
+    <label for="inputEmail" class="sr-only">Tên đăng nhập</label>
+        <?php echo $this->formRow($form->get('username')); ?>
+    <label for="inputPassword" class="sr-only">Mật khẩu</label>
+        <?php echo $this->formRow($form->get('password'));?>
+    <div class="checkbox">
+        <label>
+            <?php echo $this->formRow($form->get('rememberme')); ?>
+            Nhớ lựa chọn
+        </label>
+        <label>
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#myModal">Quên mật khẩu</a>
+        </label>
+    </div>
+    
+<?php 
+    echo $this->formRow($form->get('submit')); 
+    if ($this->messages){
+        echo '<br><div class="alert alert-danger">';
+        foreach($this->messages as $message)
+        {
+            echo $message;
+        }
+        echo '</div>';
+    }
+    echo $this->form()->closeTag();
+?>
+<!-- Modal Quên mật khẩu-->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="panel-body">
+                <div class="text-center">
+                    <h3><i class="fa fa-lock fa-4x"></i></h3>
+                    <h2 class="text-center">Quên mật khẩu?</h2>
+                    <p>Nhập email của bạn.</p>
+                    <div class="panel-body">
+                        <form id="reset-form" role="form" autocomplete="off" class="form" method="post">
+                        <div class="form-group">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
+                            <input id="email" name="email" placeholder="email address" class="form-control"  type="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div id="content">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input name="recover-submit" id = "resetpasssword" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
+                        </div>
+                        <input type="hidden" class="hide" name="token" id="token" value=""> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+    var submit   = $("#resetpasssword");
+    submit.click(function()
+    {
+        var email = $("input[name='email']").val();
+        if(email == ''){
+            alert('Vui lòng nhập email');
+            return false;
+        }
+        $('#content').html("Đang xử lý ...");
+        //var data = $('form#reset-form').serialize();
+        $.ajax({
+        type : 'POST',
+        url  : 'auth/admin/resetpasssword',
+        data: {email: email},
+        success :  function(result)
+            {                       
+                if(result == 'false')
+                {
+                    alert('Sai tên hoặc mật khẩu');
+                }else{
+                    $('#content').html(result.result);
+                }
+            }
+        });
+        return false;
+    });
+});
+</script>

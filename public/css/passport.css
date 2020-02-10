@@ -1,0 +1,85 @@
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+.error {
+    color: #f00;
+    display: block;
+    font-weight: normal;
+    width: 100%;
+    padding: 1em 0;
+}
+
+#loading {
+    display: none;
+    font-size: 2em;
+    padding: 2px;
+    margin-top: 10px;
+}
+
+.menu {
+    background: #0e90d2;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+}
+
+nav.navbar.navbar-default {
+    background-color: unset;
+    border-color: unset;
+    border: 0;
+    margin-bottom: 0;
+}
+
+.navbar-default .navbar-nav>li>a,
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:hover {
+    color: #fff;
+}
+
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:focus,
+.navbar-default .navbar-nav>.open>a:hover {
+    background: #5590af;
+    color: #fff;
+}
+
+.box {
+    width: 40%;
+    display: block;
+    margin: 0 auto;
+}
+
+.box h3 {
+    font-weight: bolder;
+    font-size: 30px;
+}
+
+.navbar-default .navbar-brand {
+    color: #fff;
+}
+
+@media only screen and (max-width: 1024px) {
+    .box {
+        padding: 1em;
+        width: 100% !important;
+        overflow: scroll;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu>li>a {
+        color: #fff;
+    }
+    .row-login {
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+        margin: 1em;
+    }
+    .pull-right {
+        float: left !important;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}

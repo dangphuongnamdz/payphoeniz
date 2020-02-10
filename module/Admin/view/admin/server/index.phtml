@@ -1,0 +1,301 @@
+
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+label.col-sm-1.controll-label,
+label.col-sm-9.controll-label,
+label.col-sm-12.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+    display: block;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+#server span {
+    font-size: 11px;
+    display: block;
+}
+
+#server {
+    display: block;
+    min-height: 5em;
+    font-size: 12px;
+}
+
+#submitbutton {
+    float: right;
+}
+.btndelete{
+    display: block; 
+    text-align: center; 
+    float: right;
+    margin: 0 1em;
+}
+select.form-control {
+    text-align-last: center;
+    font-size: 13px;
+}
+input.form-control {
+    text-align: center;
+}
+article.product-item {
+    width: 100%;
+    display: block;
+    float: left;
+}
+
+label.col-sm-1.controll-label {
+    margin: 0 5px;
+}
+
+
+@media only screen and (max-width: 1248px){
+    label.col-sm-1.controll-label {
+        width: 18%;
+        float: left;
+        height: 66px;
+    }
+
+    label.col-sm-2.controll-label {
+        width: 20%;
+        float: left;
+    }
+
+    input#submitbutton {
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+        float: unset;
+    }
+
+    a.btn.btn-danger.btndelete {
+        float: unset;
+        margin: 0 auto;
+        display: block;
+        text-align: center;
+        width: 50px;
+    }
+}
+span.multiselect-native-select {
+    position: relative;
+    float: left;
+    margin-bottom: 1em;
+}
+span.multiselect-native-select select {
+	border: 0!important;
+	clip: rect(0 0 0 0)!important;
+	height: 1px!important;
+	margin: -1px -1px -1px -3px!important;
+	overflow: hidden!important;
+	padding: 0!important;
+	position: absolute!important;
+	width: 1px!important;
+	left: 50%;
+	top: 30px
+}
+.multiselect-container {
+	position: absolute;
+	list-style-type: none;
+	margin: 0;
+	padding: 0
+}
+.multiselect-container .input-group {
+	margin: 5px
+}
+.multiselect-container>li {
+	padding: 0
+}
+.multiselect-container>li>a.multiselect-all label {
+	font-weight: 700
+}
+.multiselect-container>li.multiselect-group label {
+	margin: 0;
+	padding: 3px 20px 3px 20px;
+	height: 100%;
+	font-weight: 700
+}
+.multiselect-container>li.multiselect-group-clickable label {
+	cursor: pointer
+}
+.multiselect-container>li>a {
+	padding: 0
+}
+.multiselect-container>li>a>label {
+	margin: 0;
+	height: 100%;
+	cursor: pointer;
+	font-weight: 400;
+	padding: 3px 0 3px 30px
+}
+.multiselect-container>li>a>label.radio, .multiselect-container>li>a>label.checkbox {
+	margin: 0
+}
+.multiselect-container>li>a>label>input[type=checkbox] {
+	margin-bottom: 5px
+}
+.btn-group>.btn-group:nth-child(2)>.multiselect.btn {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px
+}
+.form-inline .multiselect-container label.checkbox, .form-inline .multiselect-container label.radio {
+	padding: 3px 20px 3px 40px
+}
+.form-inline .multiselect-container li a label.checkbox input[type=checkbox], .form-inline .multiselect-container li a label.radio input[type=radio] {
+	margin-left: -20px;
+	margin-right: 0
+}
+button.multiselect.dropdown-toggle.btn-block.text-left.btn.btn-default {
+    width: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+span.multiselect-native-select div {
+    width: auto;
+    float: left;
+    display: unset;
+}
+.btnXutno{
+    margin-left:1em;
+}
+</style>
+<div class="col-lg-12">
+    <?php
+    $title = 'Quản lý server';
+    $this->headTitle($title);
+    ?>
+    <h3><?php echo $this->escapeHtml($title); ?></h3>
+    <p>
+        <a href="<?php echo $this->url('adminserver', array('action'=>'add'));?>"><button class="btn btn-basic ">Thêm mới <i class="fa fa-plus" aria-hidden="true"></i></button></a>
+    </p>
+    <select name="sort-product" id="sort-product" class="form-control" style="width: 200px;margin: 1em 0;">
+        <option value="All">All</option>
+        <?php foreach ($this->products as $product) : ?>
+        <option value="group<?php echo $product->id?>"><?php echo $product->name?></option>
+        <?php endforeach; ?>
+    </select>
+    <script src="/js/mutliSelect.js"></script>
+    <select id="dates-field2" class="multiselect-ui form-control" multiple="multiple">
+        <?php foreach($this->servers as $server): ?>
+        <option value="<?php echo $server->server_id?>" data-category="group<?php echo $server->product_id?>"><?php echo $server->server_name?></option>
+        <?php endforeach; ?>
+    </select>
+    <button class="btnXutno btn btn-success" data-id='1'>Chuyển status thành YES</button>
+    <button class="btnXutno btn btn-danger" data-id='2'>Chuyển status thành NO</button>
+    <section class="product-list">
+    <?php 
+    foreach ($list_form as $form) { 
+        echo '<article class="product-item" data-category="group'.$form->get('product_id')->getValue().'">';
+        $form->setAttribute('action', $this->url(
+            'adminserver',
+            array(
+                'action' => 'edit'
+            )
+        ));
+        $form->prepare();
+    
+        echo $this->form()->openTag($form);
+        echo $this->formRow($form->get('id'));
+        echo $this->formRow($form->get('server_id'));
+        echo $this->formRow($form->get('server_name'));
+        echo $this->formRow($form->get('key_iap_charge'));
+        echo $this->formRow($form->get('key_web_charge'));
+        echo $this->formRow($form->get('server_status'));
+        echo $this->formRow($form->get('server_slug'));
+        echo $this->formRow($form->get('pay_status'));
+        // echo $this->formRow($form->get('server_order'));
+        echo $this->formRow($form->get('product_id'));
+        echo $this->formRow($form->get('agent'));
+        $s = substr ($this->formRow($form->get('id')) , 38 )
+        ?>
+        <label for="" class="col-sm-1 controll-label">
+            <span>.</span>
+        <?php 
+            echo $this->formSubmit($form->get('submit'));?>
+        </label>
+        <label for="" class="col-sm-1 controll-label">
+            <span>.</span>
+            <a href="<?php echo $this->url('adminserver',
+            array('action'=>'delete', 'id' => substr($s, 0, -2)));?>" class="btn btn-danger btndelete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+        </label>
+        <?php echo $this->form()->closeTag();
+        echo "</article>";
+        echo "<div class='clearfix'></div>";
+    } ?> 
+    </section>
+</div>
+<script>
+    $('select#sort-product').change(function() {
+        var filter = $(this).val();
+        filterList(filter);
+    });
+
+    function filterList(value) {
+        var list = $(".product-list .product-item");
+        $(list).fadeOut("fast");
+        if (value == "All") {
+            $(".product-list").find("article").each(function (i) {
+                $(this).delay(200).slideDown("fast");
+            });
+            $(".multiselect-container").find("li").each(function (i) {
+                $(this).delay(200).slideDown("fast");
+            });
+
+        } else {
+            var values = [];
+            $(".product-list").find("article[data-category*=" + value + "]").each(function (i) {
+                $(this).delay(200).slideDown("fast");
+                $(this).find("input[name=server_id]").each(function (i) {
+                    values.push($(this).val()); 
+                });
+            });
+            
+            $(".multiselect-container").find("li").each(function (i) {
+                $(this).show();
+                if($(this).find("input").val()!='multiselect-all' && values.includes($(this).find("input").val())==false){
+                    $(this).hide();
+                }
+            });
+            
+        }
+    }
+</script>
+<script type="text/javascript">
+    $(function() {
+        $('.multiselect-ui').multiselect({
+            includeSelectAllOption: true
+        });
+    });
+</script>
+<script>
+$(".btnXutno").click(function() {
+    var type = $(this).attr('data-id');
+    var arrXutno = [];
+    $('input[type=checkbox]:checked').each(function () {
+        arrXutno.push($(this).val());
+    });
+    $.ajax({
+        type: "POST",
+        url: "/admin/server/updateStatus",
+        data: {arrXutno: arrXutno, type: type},
+        success: function(result){
+            result = JSON.parse(result);
+            if(result.response===true){
+                alert("Thành công");
+                location.reload();
+            }
+            else
+            alert("Lỗi! Không thực hiện chức năng này được"+result);
+        }
+    });
+});
+</script>

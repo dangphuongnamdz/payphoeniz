@@ -1,0 +1,260 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script type="text/javascript" src="js/combodate.js"></script>
+<style>
+.controll-label {
+    width: 100%;
+    display: none;
+    line-height: 2em;
+    padding: 0;
+    margin: 0;
+    font-weight: unset;
+    padding-top: 5px;
+}
+input.form-control {
+    box-shadow: none;
+    height: 35px;
+    padding: 6px;
+    border: solid 1px #bfbfbf;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-bottom: 1em;
+    padding-left: 3em;
+}
+.exist-account {
+    line-height: 40px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+}
+input#submitbutton {
+    background: #0e90d2;
+    border: 0;
+    font-weight: bolder;
+    color: #fff;
+    padding: 8px;
+    display: block;
+}
+label span {
+    font-weight: bolder;
+    color: #444;
+}
+label#labelsex {
+    display: block;
+    width: 30%;
+    float: left;
+    line-height: 36px;
+}
+legend {
+    display: unset;
+    width: 20%;
+    float: left;
+    line-height: 42px;
+    border: 0;
+    font-size: 14px;
+    margin: 0;
+}
+select#city {
+    margin-bottom: 1em;
+}
+.day, .month, .year {
+    float: left;
+    margin-right: 1em;
+}
+.labelBirthday {
+    float: left;
+    width: 30%;
+    height: 42px;
+}
+span.combodate {
+    width: 70%;
+    float: left;
+    height: 42px;
+}
+.icon {
+    width: 35px;
+    height: 35px;
+    float: left;
+    color: #000;
+    position: absolute;
+}
+.icon .fa {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    color: #0e90d2;
+    font-size: 16px;
+}
+.error {
+    padding: 0;
+}
+span.note {
+    display: block;
+    font-size: 13px;
+    color: #f50e0e;
+    font-style: italic;
+}
+@media screen and (min-width: 461px) and (max-width: 1200px) { 
+    .labelBirthday {
+        display: block;
+        float: unset;
+        width: 100%;
+        height: 30px;
+    }
+    span.combodate {
+        display: block;
+        float: unset;
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 460px){
+    .labelBirthday {
+        display: block;
+        float: unset;
+        width: 100%;
+    }
+
+    span.combodate {
+        width: 100%;
+        float: unset;
+        display: block;
+        height: auto;
+        padding-bottom: 10px;
+    }
+
+    .day, .month, .year {
+        float: unset;
+        display: block;
+    }
+    legend {
+        width: 100%;
+        margin: 0;
+    }
+}
+</style>
+<?php
+ $title = 'Đăng ký';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+ <?php
+  if ($this->messages!=""){
+     echo '<br><div class="alert alert-info">'.$messages.'</div>';
+  }
+ $form->prepare();
+ echo $this->form()->openTag($form);
+ $form->get('username')->setAttribute('placeholder', 'Tên đăng nhập *');
+ echo '<div class="icon"><i class="fa fa-user-o" aria-hidden="true"></i></div>';
+ echo $this->formRow($form->get('username'));
+ echo '<div class="icon"><i class="fa fa-key" aria-hidden="true"></i></div>'; 
+ $form->get('password')->setAttribute('placeholder', 'Mật khẩu *');
+ echo $this->formRow($form->get('password'));
+ echo '<div class="icon"><i class="fa fa-key" aria-hidden="true"></i></div>';
+ $form->get('repassword')->setAttribute('placeholder', 'Nhập lại mật khẩu *');
+ echo $this->formRow($form->get('repassword'));
+ echo '<div class="icon"><i class="fa fa-envelope-o" aria-hidden="true"></i></div>';
+ $form->get('email')->setAttribute('placeholder', 'Email');
+ echo $this->formRow($form->get('email'));
+ echo '<div class="icon"><i class="fa fa-user" aria-hidden="true"></i></div>';
+ $form->get('fullname')->setAttribute('placeholder', 'Họ tên');
+ echo $this->formRow($form->get('fullname'));
+ echo "<div class='labelBirthday'>Ngày sinh: </div>";
+ $form->get('birthday')->setAttribute('placeholder', 'Ngày sinh');
+ echo $this->formRow($form->get('birthday'));
+ echo "<span class='note'>Yêu cầu bạn phải trên 18 tuổi để đăng ký</span>";
+ echo "<div class='clearfix'></div>";
+ $form->get('sex')->setAttribute('placeholder', 'Giới tính');
+ echo $this->formRow($form->get('sex'));
+ echo '<div class="icon"><i class="fa fa-indent" aria-hidden="true"></i></div>';
+ $form->get('identityNumber')->setAttribute('placeholder', 'CMND');
+ echo $this->formRow($form->get('identityNumber'));
+ echo "<div class='clearfix'></div>";
+ echo "<div class='labelBirthday'>Ngày cấp: </div>";
+ $form->get('identityDate')->setAttribute('placeholder', 'Ngày cấp');
+ echo $this->formRow($form->get('identityDate'));
+ echo "<div class='clearfix'></div>";
+ echo '<div class="icon"><i class="fa fa-building" aria-hidden="true"></i></div>';
+ $form->get('identityPlace')->setAttribute('placeholder', 'Nơi cấp');
+ echo $this->formRow($form->get('identityPlace'));
+ echo '<div class="icon"><i class="fa fa-mobile" aria-hidden="true"></i></div>';
+ $form->get('mobile')->setAttribute('placeholder', 'Số điện thoại');
+ echo $this->formRow($form->get('mobile'));
+ echo '<div class="icon"><i class="fa fa-location-arrow" aria-hidden="true"></i></div>';
+ $form->get('address')->setAttribute('placeholder', 'Địa chỉ');
+ echo $this->formRow($form->get('address'));
+ $form->get('city')->setAttribute('placeholder', 'Thành phố');
+ echo $this->formRow($form->get('city'));
+ echo $this->formRow($form->get('security'));
+ echo $this->formSubmit($form->get('submit'));
+ echo "<div id='loading'><i class='fa fa-spinner fa-spin'></i></div>";
+ echo $this->form()->closeTag();
+?>
+<script>
+    $(function() {
+        $('#birthday').combodate({
+            customClass: 'form-control',
+            value: new Date(),
+            minYear: 1960,
+            maxYear: moment().format('YYYY')  - 18 
+        });
+    });
+</script>
+<script>
+    $(function() {
+        $('#identityDate').combodate({
+            customClass: 'form-control',
+            value: new Date(),
+            minYear: 1960,
+            maxYear: moment().format('YYYY')  
+        });
+    });
+</script>
+<script>
+$(document).ready(function() {
+    $(window).on('beforeunload', function(){
+        $("#loading").show();   
+    });
+    $("#user").validate({
+        rules: {
+            username: {
+                required: true,
+                minlength: 6,
+                maxlength: 24,
+            },
+            password: {
+                required: true,
+                minlength: 5
+            },
+            repassword: {
+                required: true,
+                equalTo: "input[name=password]",
+                minlength: 5
+            },
+            fullname: {
+                required: false,
+                maxlength: 50,
+            },
+            
+        },
+        messages: {
+            username: {
+                required: "Vui lòng nhập username",
+                minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 24 ký tự"
+            },
+            password: {
+                required: 'Vui lòng nhập mật khẩu',
+                minlength: 'Vui lòng nhập ít nhất 5 kí tự'
+            },
+            repassword: {
+                required: 'Vui lòng nhập mật khẩu',
+                minlength: 'Vui lòng nhập ít nhất 5 kí tự',
+                equalTo:   'Xác nhận mật khẩu mới không chính xác'
+            },
+            fullname: {
+                maxlength: "Vui lòng nhập ít hơn 50 ký tự"
+            },
+        }
+    });
+});
+</script>

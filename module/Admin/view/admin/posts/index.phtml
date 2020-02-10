@@ -1,0 +1,107 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script> 
+<style>
+thead {
+    background: #CECECE;
+}
+input.form-control {
+    width: 50px;
+    text-align: center;
+}
+</style>
+<script>
+    $(document).ready(function() {
+        $('#datatables').DataTable( {
+            "select": true,
+            "pageLength": 50,
+            "order": [[ 1, "asc" ]]
+        } );
+    } );    
+</script>
+<div class="col-lg-12">
+    <?php
+    $title = 'Quản lý bài viết';
+    $this->headTitle($title);
+    ?>
+    <h1><?php echo $this->escapeHtml($title); ?></h1>
+    <h5><i>*** &nbsp; Kéo thả để sắp xếp thứ tự product</i></h5>
+    <p>
+        <a href="<?php echo $this->url('adminpost', array('action'=>'add'));?>"><button class="btn btn-basic ">Thêm mới <i class="fa fa-plus" aria-hidden="true"></i></button></a>
+    </p>
+    <table id="datatables" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Sắp xếp</th>
+            <th>Tiêu đề</th>
+            <th>Danh mục</th>
+            <th>Ngày tạo</th>
+            <th>Preview</th> 
+            <th>Tùy chọn</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($posts as $row) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($row->id);?></td>
+            <input type="hidden" value="<?php echo $row->id?>" id="id_product"/>
+            <td><?php echo $row->order?><input type="text" value="<?php echo $row->order?>" class="form-control" readonly="true" id="order_product" style="display: none;"/></td>
+            <td><?php echo $this->escapeHtml($row->title);?></td>
+            <td><?php echo $this->escapeHtml($row->tendanhmuc);?></td>
+            <td><?php echo $this->escapeHtml($row->created_at);?></td> 
+            <td>
+            <?php 
+                if (strpos($row->slug, 'http') !== false || strpos($row->slug, 'www') !== false) {
+                    $slug = $row->slug;
+                }else{
+                    $slug = '/'.$row->slug.'-'.$row->id.'.html';
+                } ?>
+                <a href="<?php echo $this->escapeHtml($slug);?>" style="display: block; text-align: center; margin-bottom: 2px;" target="_blank">
+                    <i class="fa fa-street-view" aria-hidden="true"></i></a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url('adminpost',
+                    array('action'=>'edit', 'id' => $row->id));?>" class="btn btn-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href="<?php echo $this->url('adminpost',
+                    array('action'=>'delete', 'id' => $row->id));?>" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $('tbody').sortable({
+        items: 'tr',
+        start: function(event, ui) {
+            // Create a temporary attribute on the element with the old index
+            current_position = (ui.item.index()+1);
+            id_current_position = $(this).find("input[type=hidden]").val();
+        },
+        update: function(event, ui) {
+            let desired_position = (ui.item.index()+1);
+            console.log('desired_position: '+desired_position);
+            console.log('id_current_position: '+id_current_position);
+            console.log('current_position: '+current_position);
+            //Post to the server to handle the changes
+            $.ajax({
+                type: "POST",
+                url: "/admin/posts/sort",
+                data: {
+                    desired_position: desired_position,
+                    current_position: current_position,
+                    id_current_position: id_current_position
+                },
+                beforeSend: function() {
+                    // Disable dragging
+                    $('tbody').sortable('disable');
+                },
+                success: function(html) {
+                    // Re-enable dragging
+                    location.reload();
+                    $('tbody').sortable('enable');
+                }
+            });
+        }
+    });
+</script>

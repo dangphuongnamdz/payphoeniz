@@ -1,0 +1,122 @@
+<div class="col-lg-12">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+label.col-sm-9.controll-label,
+label.col-sm-12.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+    display: block;
+}
+.btn-basic{
+    color: #3D3D3D;
+    font-weight: bolder;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+.divHidden {
+    display: none;
+}
+</style>
+<?php
+ 
+ $title = 'Chỉnh sửa bài viết';
+ $this->headTitle($title);
+ ?>
+ <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+ <?php
+ $form = $this->form;
+ $form->setAttribute('action', $this->url(
+     'adminpost',
+     array(
+         'action' => 'edit',
+         'id'     => $this->id,
+     )
+ ));
+ $form->prepare();
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('id'));
+ echo $this->formRow($form->get('title'));
+ echo "<div class='clearfix'></div>";
+ echo "<hr>".$this->formRow($form->get('avatar'));
+ echo "<div class='clearfix'></div>";
+ ?>
+ <img src='/img/assets/<?php echo $this->escapeHtml($this->avatar) ?>' style="width: 300px;height: 100px;"/>
+ <?php
+ echo "<hr>".$this->formRow($form->get('avatar_mobile'));
+ echo "<div class='clearfix'></div>";
+ ?>
+ <img src='/img/assets/<?php echo $this->escapeHtml($this->avatar_mobile) ?>' style="width: 200px;height: 100px;"/>
+ <?php
+ echo "<hr>".$this->formRow($form->get('summary'));
+ echo "<div class='clearfix'></div>";
+ echo "<hr>".$this->formRow($form->get('content'));
+ echo "<div class='clearfix'></div>";
+ echo "<hr>".$this->formRow($form->get('id_category'));
+ echo "<div class='clearfix'></div>";
+ echo "<hr>".$this->formRow($form->get('slug'));
+ echo "<div class='clearfix'></div>";
+ echo "<hr>".$this->formRow($form->get('submit'));
+ echo $this->form()->closeTag();
+ ?>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <script>    CKEDITOR.replace('content');</script>
+ <script>
+    $(document).ready(function() {
+        // $(".id_category option").each(function()
+        // {
+        //     if(!$(this).text().includes("--") && $(this).text().includes("+")){
+        //         $(this).attr("disabled", "disabled");
+        //         $(this).css("color", "#dadada");
+        //     }
+        // });
+        $("#posts").validate({
+            rules: {
+                title: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 200,
+                },
+                content: {
+                    required: true,
+                    minlength: 2,
+                },
+                id_category: {
+                    required: true
+                },
+            },
+            messages: {
+                title: {
+                    required: "Vui lòng nhập tiêu đề",
+                    minlength: "Vui lòng nhập nhiều hơn 2 ký tự",
+                    maxlength: "Vui lòng nhập ít hơn 200 ký tự"
+                },
+                content: {
+                    required: "Vui lòng nhập nội dung",
+                    minlength: "Vui lòng nhập nhiều hơn 2 ký tự"
+                },
+                id_category: {
+                    required: "Vui lòng chọn danh mục"
+                }
+            }
+        });
+    });    
+ </script>
+ </div>

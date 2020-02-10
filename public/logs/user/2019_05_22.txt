@@ -1,0 +1,2 @@
+authenticatePassport #agent:m001 #username:hatori02 #status: 1
+authenticatePassport #agent:m001 #username:htgh0001 #status: 1

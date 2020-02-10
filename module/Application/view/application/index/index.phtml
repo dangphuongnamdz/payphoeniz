@@ -1,0 +1,96 @@
+<?php
+ $title = 'Home';
+ $this->headTitle($title);
+ ?>
+ <!-- Slider -->
+ <div class="container-fuild slider">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <?php for ($i = 1; $i<count($this->posts); $i++) { ?>
+            <li data-target="#myCarousel" data-slide-to="<?php echo $i?>"></li>
+            <?php } ?>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <?php 
+                if (strpos($this->posts[0]['slug'], 'http') !== false || strpos($this->posts[0]['slug'], 'www') !== false) {
+                    $slug_one = $this->posts[0]['slug'];
+                }else{
+                    $slug_one = $this->posts[0]['slug'].'-'.$this->posts[0]['id'].'.html';
+                } ?>
+                <?php if($this->posts[0]['avatar']!=null){?>
+                <a href="<?php echo $slug_one?>" class="slide_desktop">
+                    <img src="./img/assets/<?php echo $this->posts[0]['avatar']?>" alt="" style="width:100%;">
+                </a>
+                <?php }?>
+                <?php if($this->posts[0]['avatar_mobile']!=null){?>
+                <a href="<?php echo $slug_one?>" class="slide_mobile">
+                    <img src="./img/assets/<?php echo $this->posts[0]['avatar_mobile']?>" alt="" style="width:100%;">
+                </a>
+                <?php }?>
+            </div>
+            <?php for ($i = 1; $i<count($this->posts); $i++) { 
+             if (strpos($this->posts[$i]['slug'], 'http') !== false || strpos($this->posts[$i]['slug'], 'www') !== false) {
+                $slug = $this->posts[$i]['slug'];
+             }else{
+                $slug = $this->posts[$i]['slug'].'-'.$this->posts[$i]['id'].'.html';
+             }    
+            ?>
+            <div class="item">
+                <?php if($this->posts[$i]['avatar']!=null){?>
+                <a href="<?php echo $slug?>" class="slide_desktop">
+                    <img src="./img/assets/<?php echo $this->posts[$i]['avatar']?>" alt="" style="width:100%;">
+                </a>
+                <?php }?>
+                <?php if($this->posts[$i]['avatar_mobile']!=null){?>
+                <a href="<?php echo $slug?>" class="slide_mobile">
+                    <img src="./img/assets/<?php echo $this->posts[$i]['avatar_mobile']?>" alt="" style="width:100%;">
+                </a>
+                <?php }?>
+            </div>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<!-- Product -->
+<div class="container-fuild product">
+    <h3>Sản phẩm nổi bật</h3>
+    <?php 
+	
+	$ip = $_SERVER['REMOTE_ADDR'];
+	
+	foreach ($this->products as $product) :
+		//echo "<pre>";print_r($product);exit();
+		$allowIP = explode('|',$product->limit_local);
+		if($product->limit_local==null || in_array($ip,$allowIP)){
+			$target = '';
+			if($product->url_redirect != null){
+				$url = $product->url_redirect;
+				$target = 'target = "_blank"';
+			}
+			elseif($product->payment_type == 1)
+				$url = "payments/".$product->slug.".html";
+			else if($product->payment_type == 2)
+				$url = "payment/".$product->slug.".html";
+			else
+				$url = "paymentnone/".$product->slug.".html";
+			
+	?>	
+		           
+		<div class="item">
+			<a href="<?php echo $url?>" <?php echo $target;?>><div class="img-item">
+				<img src="./img/icon/<?php echo $product->avatar?>" alt="" />
+			</div></a>
+			<a href="<?php echo $url?>" <?php echo $target;?>><div class="title-item">
+				<?php echo $product->name?>
+			</div></a>
+		</div>
+	<?php
+	}
+    
+    endforeach; ?>
+</div>

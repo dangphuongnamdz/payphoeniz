@@ -1,0 +1,102 @@
+<link rel="stylesheet" type="text/css" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/daterangepicker.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/daterangepicker.min.js"></script>
+<style>
+table tr:first-child {
+    background: #CECECE;
+}
+table tr td:nth-child(4) {
+    background: #CECECE;
+}
+table tr td:nth-child(7) {
+    background: #CECECE;
+}
+input#submitbutton {
+    float: right;
+}
+label.controll-label {
+    float: left;
+    text-align: center;
+    padding-top: 6px;
+    padding-right: 20px;
+    padding-left: 10px;
+}
+.total {
+    width: 300px;
+    float: right;
+}
+</style>
+<div class="col-lg-12">
+    <?php
+    $title = 'Thống kê nạp tiền';
+    $this->headTitle($title);
+    ?>
+    <h3><?php echo $this->escapeHtml($title); ?></h3>
+    <?php
+    $form = $this->form;
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    echo $this->formRow($form->get('in_time'));
+    echo "&emsp;";
+    echo $this->formRow($form->get('in_product_id'));
+    echo "&emsp;";
+    echo $this->formSubmit($form->get('submit'));
+    echo "<div class='total'>Tổng tiền đã nạp vào game: &emsp;";
+    if(isset($this->totalGold))
+       echo number_format($this->totalGold);
+    else
+       echo '0';
+    echo "</div>";
+    echo "<div class='total'>Tổng tiền đã nạp: &emsp;";
+    if(isset($this->totalAmount))
+       echo number_format($this->totalAmount);
+    else
+       echo '0';
+    echo "</div>";
+    echo $this->form()->closeTag();?>
+    <hr>
+    <table class="table table-bordered">
+    <tr>   
+        <th>Ngày</th>
+        <th>Tổng tiền đã nạp trên web</th>
+        <th>Tổng tiền đã nạp iap</th>
+        <th>Tổng tiền đã nạp</th>
+        <th>Đã nạp vào game trên web</th>
+        <th>Đã nạp vào game iap</th>
+        <th>Tổng tiền đã nạp vào game</th>        
+    </tr>
+    <?php if(isset($this->result)){foreach ($this->result as $row) : ?>
+    <tr>
+        <td><?php echo $this->escapeHtml($row->date);?></td>
+        <td><?php echo number_format($row->amount);?></td>
+        <td><?php echo number_format($row->amount_iap);?></td>
+        <td><?php echo number_format($row->total_amount);?></td>
+        <td><?php echo number_format($row->gold);?></td>
+        <td><?php echo number_format($row->gold_iap);?></td>
+        <td><?php echo number_format($row->total_gold);?></td>
+    </tr>
+    <?php endforeach; }?>
+    </table>
+</div>
+<style type="text/css">
+      .demo { position: relative; }
+      .demo i {
+        position: absolute; bottom: 10px; right: 24px; top: auto; cursor: pointer;
+      }
+	  .form-control{
+		  width:185px;
+	  }
+</style>
+<script type="text/javascript">
+	$(document).ready(function() { 
+		updateConfig();
+		function updateConfig() { 
+			$('#config-demo').daterangepicker({
+                format: 'dd/mm/yyyy',
+                <?php if(!$status){?>
+                startDate: moment().subtract(0, 'day')
+                <?php }?>
+            }); 
+		}
+	});
+</script>

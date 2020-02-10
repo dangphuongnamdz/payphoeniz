@@ -1,0 +1,127 @@
+<div class="col-lg-12">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+    display: block;
+}
+.btn-default{
+    margin: 1em 0;
+    display: block;
+}
+.btn-basic{
+    color: #3D3D3D;
+    font-weight: bolder;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+</style>
+<?php
+ 
+ $title = 'Chỉnh sửa user';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+
+ <?php
+ $form = $this->form;
+ $form->setAttribute('action', $this->url(
+     'adminuser',
+     array(
+         'action' => 'edit',
+         'id'     => $this->id,
+     )
+ ));
+ $form->prepare();
+
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('id'));
+ echo $this->formRow($form->get('username'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('fullname'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('status'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('level'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('email'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('role_agent'));
+ echo "<div class='clearfix'></div>"; 
+ echo "<div class='col-sm-2 btn btn-default' onclick='selectAll()' data-id='2' id='btnRoleAgent'>Chọn tất cả</div>";
+ echo "<div class='clearfix'></div>";
+ echo $this->formSubmit($form->get('submit'));
+ echo $this->form()->closeTag();?>
+ <script>
+    $(document).ready(function() {
+        $("#user").validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 45,
+                },
+                password: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 30,
+                },
+                status: {
+                    required: true,
+                },
+                level: {
+                    required: true,
+                },
+                // role_agent: {
+                //     required: true,
+                //     minlength: 1
+                // },
+            },
+            messages: {
+                username: {
+                    required: "Vui lòng nhập username",
+                    minlength: "Vui lòng nhập nhiều hơn 2 ký tự",
+                    maxlength: "Vui lòng nhập ít hơn 45 ký tự"
+                },
+                password: {
+                    required: "Vui lòng nhập password",
+                    minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                    maxlength: "Vui lòng nhập ít hơn 30 ký tự"
+                },
+                
+                status: {
+                    required: "Vui lòng nhập status"
+                },
+                level: {
+                    required: "Vui lòng nhập level"
+                },
+                // role_agent: {
+                //     required: "Vui lòng chọn role"
+                //     minlength: "Vui lòng nhập role"
+                // },
+            }
+        });
+    });    
+    function selectAll() {
+        if($('#btnRoleAgent').attr('data-id')==1){
+            $('#role_agent option').prop('selected', true);
+            $('#btnRoleAgent').attr('data-id' , 2);
+        }else{
+            $('#role_agent option').prop('selected', false);
+            $('#btnRoleAgent').attr('data-id' , 1);
+        }
+    }
+ </script>
+ </div>

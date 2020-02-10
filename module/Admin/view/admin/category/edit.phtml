@@ -1,0 +1,86 @@
+<div class="col-lg-8">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+label.col-sm-12.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+    display: block;
+}
+.btn-basic{
+    color: #3D3D3D;
+    font-weight: bolder;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+</style>
+<?php
+ $title = 'Chỉnh sửa danh mục';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+
+ <?php
+ $form = $this->form;
+ $form->setAttribute('action', $this->url(
+     'admincategory',
+     array(
+         'action' => 'edit',
+         'id'     => $this->id,
+     )
+ ));
+ $form->prepare();
+
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('id'));
+ echo $this->formRow($form->get('tendanhmuc'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('alias'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('status'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('id_parent'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formSubmit($form->get('submit'));
+ echo $this->form()->closeTag();?>
+ </div>
+ <script>
+$(document).ready(function() {
+    $("#category").validate({
+        rules: {
+            tendanhmuc: {
+                required: true,
+                minlength: 2,
+                maxlength: 45,
+            },
+            alias: {
+                required: true,
+                minlength: 2,
+                maxlength: 45,
+            },
+        },
+        messages: {
+            tendanhmuc: {
+                required: "Vui lòng nhập tên danh mục",
+                minlength: "Vui lòng nhập nhiều hơn 2 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 45 ký tự"
+            },
+            alias: {
+                required: "Vui lòng nhập url",
+                minlength: "Vui lòng nhập nhiều hơn 2 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 45 ký tự"
+            },
+        }
+    });
+});
+</script>

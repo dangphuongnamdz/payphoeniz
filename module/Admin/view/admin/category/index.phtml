@@ -1,0 +1,69 @@
+<style>
+thead {
+    background: #CECECE;
+}
+</style>
+<div class="col-lg-12">
+    <?php
+    $title = 'Quản lý danh mục';
+    $this->headTitle($title);
+    ?>
+    <h1><?php echo $this->escapeHtml($title); ?></h1>
+    <p>
+        <a href="<?php echo $this->url('admincategory', array('action'=>'add'));?>"><button class="btn btn-basic ">Thêm mới <i class="fa fa-plus" aria-hidden="true"></i></button></a>
+    </p>
+    <table id="" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Tên danh mục</th>
+            <th>Alias</th>
+            <th>Trạng thái</th>
+            <th>Tùy chọn</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($categorys as $category) { ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($category['id']);?></td>
+            <td><?php echo $this->escapeHtml('+ '.$category['tendanhmuc']);?></td>
+            <td><?php echo $this->escapeHtml($category['alias']);?></td>
+            <td><?php 
+                if($category['status'] == 1)
+                    echo "Hiển thị";
+                else
+                    echo "Ẩn";
+            ?></td>
+            <td>
+                <a href="<?php echo $this->url('admincategory',
+                    array('action'=>'edit', 'id' => $category['id']));?>" class="btn btn-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href="<?php echo $this->url('admincategory',
+                    array('action'=>'delete', 'id' => $category['id']));?>" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </td>
+        </tr>
+        <?php 
+        if(isset($category['children'])){?>
+            <?php foreach ($category['children'] as $subcategory) { ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($subcategory['id']);?></td>
+            <td><?php echo $this->escapeHtml('-- '.$subcategory['tendanhmuc']);?></td>
+            <td><?php echo $this->escapeHtml($subcategory['alias']);?></td>
+            <td><?php 
+                if($subcategory['status'] == 1)
+                    echo "Hiển thị";
+                else
+                    echo "Ẩn";
+            ?></td>
+            <td>
+                <a href="<?php echo $this->url('admincategory',
+                    array('action'=>'edit', 'id' => $subcategory['id']));?>" class="btn btn-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href="<?php echo $this->url('admincategory',
+                    array('action'=>'delete', 'id' => $subcategory['id']));?>" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a>
+            </td>
+        </tr>
+        <?php }
+        }
+    } ?> 
+    </tbody>
+    </table>
+</div>

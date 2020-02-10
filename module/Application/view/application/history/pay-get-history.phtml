@@ -1,0 +1,148 @@
+<link rel="stylesheet" type="text/css" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/daterangepicker.min.css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/moment.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.27/daterangepicker.min.js"></script>
+<style>
+body {
+    background-color: #333;
+}
+.box {
+    width: 100%;
+}
+.box h3 {
+    font-weight: bolder;
+    font-size: 28px;
+    color: #fff;
+    display: block;
+}
+table tr:first-child {
+    background: #CECECE;
+    color: #000;
+    font-weight: bold;
+    font-size: 13px;
+}
+.controll-label {
+    width: 200px;
+    display: none;
+}
+#config-form {
+    width: 200px;
+}
+.box-row {
+    width: 25%;
+    float: left;
+    margin-bottom: 1em;
+}
+#submitbutton {
+    float: right;
+    width: 200px;
+}
+.table tr {
+    color: #fff;
+}
+.tab-Switch {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+}
+
+.tab-Switch .actived {
+    color: #ffffff;
+    text-decoration: none;
+    padding-right: 10px;
+    cursor: unset;
+}
+
+.tab-Switch a {
+    color: #0e90d2;
+    padding-right: 10px;
+}
+@media only screen and (max-width: 680px){
+    .box-row {
+        display: block;
+        float: unset;
+        width: 90%;
+    }
+
+    #config-form {
+        width: 100%;
+    }
+
+    input#submitbutton {
+        float: left;
+        margin-bottom: 10px;
+    }
+
+    .table tr {
+        font-size: 12px;
+    }
+}
+</style>
+<div class="tab-Switch">
+    <a href = "/payment/<?php echo substr($_SERVER['REQUEST_URI'],23,strlen($_SERVER['REQUEST_URI']))?>.html">Nạp thẻ</a>
+    <a href = "/history/cardGetHistory/<?php echo substr($_SERVER['REQUEST_URI'],23,strlen($_SERVER['REQUEST_URI']))?>">Lịch sử ví</a>
+    <a href = "javascript:void(0);" class="actived">Lịch sử game</a>
+</div>
+<?php
+$title = 'Lịch sử nạp vào game';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<?php
+$form = $this->form;
+$form->prepare();
+echo $this->form()->openTag($form);
+echo "<div class='box-row'>";
+echo $this->formRow($form->get('in_product_id'));
+echo "</div>";
+echo "<div class='box-row'>";
+echo $this->formRow($form->get('in_time'));
+echo "</div>";
+echo "<div class='box-row'>";
+echo $this->formSubmit($form->get('submit'));
+echo "</div>";
+echo $this->form()->closeTag();?>
+<table class="table table-bordered">
+<tr>   
+    <td style="width:100px">Transaction ID</td>
+    <td style="width:100px">Mệnh giá</td>
+    <td style="width:100px">Giá trị duy đổi</td>
+    <td style="width:100px">Game</td>
+    <td style="width:100px">Server</td>
+    <td style="width:100px">Trạng thái nạp vào game</td>
+    <td style="width:100px">Ngày thực hiện</td>	
+</tr>
+<?php if (!empty($this->result)){foreach ($this->result as $row) : ?>
+<tr>
+    <td style="width:100px"><?php echo $row->transaction_id?></td>
+    <td style="width:100px"><?php echo ($row->amount!='')?number_format($row->amount):''?></td>
+    <td style="width:100px"><?php echo ($row->gold!='')?number_format($row->gold):''?></td>
+    <td style="width:100px"><?php 
+    for($i=0; $i < count($this->products); $i++){
+        if($this->products[$i]['agent']==$row->product_id)
+            echo $this->products[$i]['name'];
+    }
+    ?></td>
+    <td style="width:100px"><?php 
+    for($i=0; $i < count($this->servers); $i++){
+        if($this->servers[$i]['server_id']==$row->server_id)
+            echo $this->servers[$i]['server_name'];
+    }
+    ?></td>
+    <td style="width:100px"><?php echo ($row->pay==1)?'Thành công':'Thất bại'; ?></td>
+    <td style="width:100px"><?php echo $row->create_date?></td>
+</tr>
+<?php endforeach; }else{
+    echo "<tr><td>Không có dữ liệu</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+}?>
+</table>
+<script type="text/javascript">
+	$(document).ready(function() { 
+		updateConfig();
+		function updateConfig() { 
+			$('#config-demo').daterangepicker({
+                format: 'dd/mm/yyyy',
+            }); 
+		}
+	});
+</script>

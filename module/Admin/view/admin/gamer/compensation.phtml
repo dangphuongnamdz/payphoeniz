@@ -1,0 +1,133 @@
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+label.col-sm-9.controll-label,
+label.col-sm-12.controll-label {
+    margin-bottom: 1em;
+    padding: 0;
+    font-size: 13px;
+    display: block;
+}
+.btn-basic{
+    color: #3D3D3D;
+    font-weight: bolder;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+    float: left;
+    display: block;
+    width: 100%;
+}
+select#config-form {
+    margin-bottom: 1em;
+}
+label.col-sm-2.controll-label {
+    padding: 0;
+}
+#listrole{
+	display:none;
+}
+.custom_amount{
+	display:none;
+}
+</style>
+<div class="col-lg-8">
+    <?php
+    $title = 'Xử lý đền bù';
+    $this->headTitle($title);
+    ?>
+    <h3><?php echo $this->escapeHtml($title); ?></h3>
+    <?php
+    $form->setAttribute('action', $this->url('gamer', array('action' => 'compensation')));
+    $form->prepare();
+
+    echo $this->form()->openTag($form);
+    echo $this->formRow($form->get('in_product_id'));
+    echo "<div class='clearfix'></div>";
+    echo $this->formRow($form->get('in_server'));
+	echo '<div id="listrole"></div>';
+    echo "<input type='hidden' name='id' id='id' value='".$this->id."' />";
+    echo "<input type='hidden' name='username' id='username' value='".$this->username."' />";
+    echo "<div class='clearfix'></div>";
+    echo $this->formRow($form->get('in_amount'));
+    echo "<div class='clearfix'></div>";
+    echo $this->formRow($form->get('custom_amount'));
+    echo "<div class='clearfix'></div>";
+    echo $this->formSubmit($form->get('submit'));
+    echo "<div class='clearfix'></div>";
+    if ($this->messages!=""){
+        echo '<br><div class="alert alert-basic">'.$messages.'</div>';
+    }
+    echo $this->form()->closeTag();?>
+ </div>
+ <script>
+$(document).ready(function() {
+    console.log($('.in_product_id').val());
+    if($('.in_product_id').val() == 'm005'){
+        $('.custom_amount').css('display','block');
+    }
+	var id = '<?php echo $this->id;?>';
+	if(id==''){
+		window.location.href = '/admin/gamer';
+	}
+	$(document.body).delegate('#server_role', 'change', function() {
+		var roleName = this.options[this.selectedIndex].text;
+		document.getElementById("role_name").value = roleName;
+	});
+    $("#payhistory").validate({
+        rules: {
+            in_product_id: {
+                required: true,
+            },
+            in_server: {
+                required: true,
+            },
+            custom_amount: {
+                number: true
+            }
+        },
+        messages: {
+            in_product_id: {
+                required: "Vui lòng chọn product",
+            },
+            in_server: {
+                required: "Vui lòng chọn server",
+            },
+            custom_amount: {
+                number: "Vui lòng nhập số",
+            },
+        }
+    });
+
+    $('.in_product_id').on('change', function(){
+        if($(this).val()!='')
+            window.location = '/admin/gamer/compensation/<?php echo $this->id?>/<?php echo $this->username?>/'+$(this).val();  
+        else
+            window.location = '/admin/gamer/compensation/<?php echo $this->id?>/<?php echo $this->username?>';   
+    });
+	$('.in_server').on('change', function(){ 
+		var product = $('.in_product_id').val();
+        if($(this).val()!='' && product=='m002' || product=='m003' || product=='m005'){ 
+			$.post("/payment/getrole.html", {
+			server_id: $(this).val(),
+			id_user: $('#id').val(),
+			agent: product,
+			username:$('#id').val()
+		},function(result){
+			$('#listrole').css('display','block');
+			document.getElementById("listrole").innerHTML = "";
+			document.getElementById("listrole").innerHTML = "<div class='clearfix'></div>"+result['result'];
+		}, 'json');
+		}
+    });
+	
+});
+</script>

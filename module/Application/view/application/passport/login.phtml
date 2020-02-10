@@ -1,0 +1,262 @@
+<?php
+ $title = 'Login';
+ $this->headTitle($title);
+ ?>
+ <style>
+.row-login {
+    display: block;
+    margin-top: 10px;
+    margin-left: 0;
+    width: 80%;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    height: 50px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.row-login p {
+    width: 75%;
+    float: left;
+    line-height: 50px;
+    font-size: 15px;
+}
+div#btnFacebook {
+    background: #4267b2;
+}
+i.fa.fa-facebook, i.fa.fa-google {
+    font-weight: bold;
+    font-size: 30px;
+    height: 100%;
+    width: 25%;
+    float: left;
+    line-height: 50px;
+    text-align: center;
+}
+#btnGoogle {
+    background: #DE4D38;
+}
+.row-login:hover{
+    opacity: .8;
+}
+.box-left {
+    width: 30%;
+    padding: 0;
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+}
+h4 {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 2em;
+    font-family: 'Nunito', sans-serif;
+}
+.box-right {
+    width: 70%;
+    padding-left: 10%;
+    padding-right: 10%;
+    font-family: 'Nunito', sans-serif;
+    border-left: 1px solid #b3b3b3;
+}
+.error {
+    color: #ff5c5c;
+    display: block;
+    font-weight: bolder;
+    width: 100%;
+}
+#loading {
+    display: none;
+    font-size: 2em;
+    padding: 2px;
+    margin-top: 10px;
+}
+.controll-label {
+    width: 30%;
+    float: left;
+    line-height: 2em;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 1em;
+    font-weight: unset;
+    font-size: 16px;
+}
+input.form-control {
+    width: 70%;
+    float: left;
+    box-shadow: none;
+    height: 35px;
+    padding: 6px;
+    border: solid 1px #bfbfbf;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-bottom: 1em;
+}
+.exist-account {
+    line-height: 40px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+}
+#submitbutton {
+    width: 70%;
+    background: #0e90d2;
+    border: 0;
+    font-size: 16px;
+    float: right;
+    color: #fff;
+    padding: 8px;
+    display: block;
+    text-transform: uppercase;
+}
+#submitbutton:hover{
+    background: #0078b5;
+}
+label span {
+    font-weight: bolder;
+    color: #444;
+}
+.forget-password {
+    width: 100%;
+    float: right;
+    margin-top: 20px;
+    text-align: right;
+    font-size: 16px;
+    display: block;
+}
+#loading {
+    width: 20%;
+    float: left;
+    text-align: center;
+}
+
+@media only screen and (max-width: 992px) {
+    .box-left {
+        width: 100%;
+        float: unset;
+        padding-left:10%;
+        padding-right:10%;
+    }
+
+    h4 {
+        margin-bottom: 1em;
+    }
+
+    .box-right {
+        border: 0;
+        width: 100%;
+    }
+
+    .controll-label {
+        width: 100%;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    input.form-control {
+        width: 100%;
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    #submitbutton {
+        width: 100%;
+        margin-top: 6px;
+    }
+
+    #loading {
+        margin: 0 auto;
+        text-align: center;
+        width: 100%;
+    }
+    .forget-password {
+        font-size: 13px;
+    }
+
+    .exist-account {
+        font-size: 13px;
+    }
+    .row-login {
+        width: 100%;
+        display: block;
+    }
+}
+ </style>
+<!-- Product -->
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Đăng nhập</li>
+        </ol>
+    </nav>
+    
+    <div class="col-md-6 col-sm-12 box-left">
+    <h4>Đăng nhập bằng tài khoản khác</h4>
+        <a href="<?php echo htmlspecialchars($loginUrlFB)?>"><div class="row-login" id="btnFacebook">
+            <i class="fa fa-facebook" aria-hidden="true"></i>
+            <p>Đăng nhập bằng Facebook</p>
+        </div></a>
+        <a href="<?php echo htmlspecialchars($loginUrlGG)?>"><div class="row-login" id="btnGoogle">
+            <i class="fa fa-google" aria-hidden="true"></i>
+            <p>Đăng nhập bằng Google</p>
+        </div></a>
+    </div>
+    <div class="col-md-6 col-sm-12 box-right">
+    <h4>Đăng nhập bằng 100D ID</h4>
+    <?php
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    echo $this->formRow($form->get('username'));
+    echo $this->formRow($form->get('password'));
+    echo $this->formRow($form->get('security'));
+    echo $this->formSubmit($form->get('submit'));
+    echo "<div id='loading'><i class='fa fa-spinner fa-spin'></i></div>"; 
+    echo "<div class='forget-password'><a href='https://id.100d.mobi/forgetpassword'>Quên mật khẩu</a></div>";
+    echo $this->form()->closeTag();
+    echo "<div class='clearfix'></div>";
+    if($id=='null')
+    echo "<div class='exist-account'>Bạn chưa có tài khoản. <a href='https://id.100d.mobi/register'>Đăng ký ngay</a></div>";
+    else
+    echo "<div class='exist-account'>Bạn chưa có tài khoản. <a href='https://id.100d.mobi/register'>Đăng ký ngay</a></div>";    
+    echo "<div class='clearfix'></div>";
+    if ($this->messages!=""){
+        echo '<br><div class="alert alert-danger">'.$messages.'</div>';
+    }
+    echo $this->form()->closeTag();
+    ?>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $(window).on('beforeunload', function(){
+        $("#loading").show();   
+    });
+    
+    $("#user").validate({
+        rules: {
+            username: {
+                required: true,
+                minlength: 6,
+                maxlength: 24,
+            },
+            password: {
+                required: true,
+                minlength: 5
+            }
+            
+        },
+        messages: {
+            username: {
+                required: "Vui lòng nhập username",
+                minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 24 ký tự"
+            },
+            password: {
+                required: 'Vui lòng nhập mật khẩu',
+                minlength: 'Vui lòng nhập ít nhất 5 kí tự'
+            }
+        }
+    });
+});
+</script>

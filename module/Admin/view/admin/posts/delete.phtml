@@ -1,0 +1,47 @@
+<div class="col-lg-12">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+label.col-sm-12.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+}
+.btn-basic{
+    color: #3D3D3D;
+    font-weight: bolder;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+</style>
+<?php
+ $title = 'Xóa bài viết';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+ <p>Bạn có muốn xóa bài viết
+     '<?php echo $this->escapeHtml($posts->title); ?>'?
+ </p>
+ <?php
+ $url = $this->url('adminpost', array(
+     'action' => 'delete',
+     'id'     => $this->id,
+ ));
+ ?>
+ <form action="<?php echo $url; ?>" method="post">
+ <div>
+     <input type="hidden" name="id" value="<?php echo (int) $posts->id; ?>" />
+	 <input type="hidden" name="slug" value="<?php echo $posts->slug; ?>" />
+     <input type="submit" name="del" value="Yes" />
+     <input type="submit" name="del" value="No" />
+ </div>
+ </form>

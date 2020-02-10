@@ -1,0 +1,126 @@
+<style>
+.controll-label {
+    width: 100%;
+    display: block;
+    line-height: 2em;
+    padding: 0;
+    margin: 0;
+    font-weight: unset;
+    padding-top: 5px;
+}
+input.form-control {
+    box-shadow: none;
+    height: 35px;
+    padding: 6px;
+    border: solid 1px #bfbfbf;
+    border-radius: 4px;
+    background-color: #fff;
+}
+.exist-account {
+    line-height: 40px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+}
+input#submitbutton {
+    background: #0e90d2;
+    border: 0;
+    font-weight: bolder;
+    color: #fff;
+    padding: 8px;
+    display: block;
+    margin-top: 1em;
+}
+label span {
+    font-weight: bolder;
+    color: #444;
+}
+</style>
+<?php
+ $title = 'Đăng ký';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+ <?php
+ $form->prepare();
+ echo $this->form()->openTag($form);
+ echo $this->formRow($form->get('username'));
+ echo $this->formRow($form->get('password'));
+ echo $this->formRow($form->get('repassword'));
+ $form->get('email')->setOptions(array(
+    'label' => ''
+    )
+ );
+ echo '<p style="margin-top: 10px;width: 10%;float: left">Email</p> <p style="margin-top: 10px;font-style: italic;font-size: 12px;width: 90%;float: left;color: #ef1818"> (Sử dụng khi quên mật khẩu, không bắt buộc)</p>';
+ echo $this->formRow($form->get('email'));
+ echo $this->formRow($form->get('fullname'));
+ echo $this->formRow($form->get('security'));
+ echo $this->formSubmit($form->get('submit'));
+ echo "<div id='loading'><i class='fa fa-spinner fa-spin'></i></div>";
+ echo $this->form()->closeTag();
+ echo "<div class='clearfix'></div>";
+ echo "<div class='exist-account'>Bạn đã có tài khoản. <a href='/passport.html'>Đăng nhập ngay</a></div>";
+ echo "<div class='clearfix'></div>";
+ if ($this->messages!=""){
+    echo '<br><div class="alert alert-danger">'.$messages.'</div>';
+}
+echo $this->form()->closeTag();
+?>
+<?php if($this->server_id!=''){?>
+<a href="./passport/play/<?php echo $server_id.".html"?>" target="_parent" id="href-redirect">
+<script>
+$(window).on('load', function() {
+    var href = $('#href-redirect').attr('href');
+    window.top.location.href = href;
+})
+</script>
+<?php }?>
+<script>
+$(document).ready(function() {
+    $(window).on('beforeunload', function(){
+        $("#loading").show();   
+    });
+    $("#user").validate({
+        rules: {
+            username: {
+                required: true,
+                minlength: 6,
+                maxlength: 24,
+            },
+            password: {
+                required: true,
+                minlength: 5
+            },
+            repassword: {
+                required: true,
+                equalTo: "input[name=password]",
+                minlength: 5
+            },
+            fullname: {
+                required: false,
+                maxlength: 50,
+            },
+            
+        },
+        messages: {
+            username: {
+                required: "Vui lòng nhập username",
+                minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                maxlength: "Vui lòng nhập ít hơn 24 ký tự"
+            },
+            password: {
+                required: 'Vui lòng nhập mật khẩu',
+                minlength: 'Vui lòng nhập ít nhất 5 kí tự'
+            },
+            repassword: {
+                required: 'Vui lòng nhập mật khẩu',
+                minlength: 'Vui lòng nhập ít nhất 5 kí tự',
+                equalTo:   'Xác nhận mật khẩu mới không chính xác'
+            },
+            fullname: {
+                maxlength: "Vui lòng nhập ít hơn 50 ký tự"
+            },
+        }
+    });
+});
+</script>

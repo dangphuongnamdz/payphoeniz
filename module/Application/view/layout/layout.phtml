@@ -1,0 +1,117 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+    <head>
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+		new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+		j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+		'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+		})(window,document,'script','dataLayer','GTM-5DBJDSP');</script>
+		<!-- End Google Tag Manager -->
+
+        <?php echo $this->headTitle('100d pay '. $this->translate(''))->setSeparator(' - ')->setAutoEscape(false) ?>
+        <?php echo $this->headMeta()
+            ->setCharset('UTF-8')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0')?>
+        <base href="<?php echo $this->serverUrl(); ?>"/>
+        <!-- font -->
+        <link href="https://fonts.googleapis.com/css?family=Nunito|Roboto" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="./css/style.css" type="text/css" media="all">
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/validate.min.js')
+            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/jquery.min.js'); ?>
+		<!-- Facebook Pixel Code -->
+		<script>
+		  !function(f,b,e,v,n,t,s)
+		  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+		  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+		  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+		  n.queue=[];t=b.createElement(e);t.async=!0;
+		  t.src=v;s=b.getElementsByTagName(e)[0];
+		  s.parentNode.insertBefore(t,s)}(window, document,'script',
+		  'https://connect.facebook.net/en_US/fbevents.js');
+		  fbq('init', '668359496962514');
+		  fbq('track', 'PageView');
+		</script>
+		<noscript><img height="1" width="1" style="display:none"
+		  src="https://www.facebook.com/tr?id=668359496962514&ev=PageView&noscript=1"
+		/></noscript>
+		<!-- End Facebook Pixel Code -->
+
+    </head>
+    <body>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DBJDSP"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+
+        <!-- Menu -->
+        <div class="container-fuild menu">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    <a class="navbar-brand" href="/">
+                        100d pay
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/">Trang chủ </a></li>
+                        <?php 
+                        if($this->layout()->menu !=null){ 
+                            foreach ($this->layout()->menu as $menu) { 
+                                if(isset($menu['children'])){ ?>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->escapeHtml($menu['tendanhmuc']);?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <?php foreach ($menu['children'] as $submenu) { ?>
+                                <li><a href="<?php echo $this->escapeHtml($submenu['alias']);?>"><?php echo $this->escapeHtml($submenu['tendanhmuc']);?></a></li>
+                                <?php }?>
+                            </ul>
+                        </li>
+                        <?php }else{?>
+                            <li><a href="<?php echo $this->escapeHtml($menu['alias']);?>"><?php echo $this->escapeHtml($menu['tendanhmuc']);?> </a></li>
+                            <?php } } } ?> 
+                    </ul>
+                    <ul class="nav navbar-nav pull-right">
+                        <?php if($this->login['is_login']==false){?>
+                        <li class=""><a href="passport.html">Đăng nhập</a></li>
+                        <?php }else{?>
+                        <li class=" dropdown"><a href="#" class="dropdown-toggle active" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php echo $this->login['username']?> <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="https://id.100d.mobi/changepass">Đổi mật khẩu</a></li>
+                                <li><a href="https://id.100d.mobi/edit">Thông tin tài khoản</a></li>
+                                <!-- <li><a href="payment/balance.html">Balance</a></li> -->
+                                <li><a href="passport/logout">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                        <?php }?>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <?php echo $this->content; ?>
+
+        <div class="clearfix"></div>
+        <!--Footer-->
+        <div class="container-fuild footer text-center">
+            <p class="text-muted credit" style="padding:1em">Copyright © 2018 by 100 DEGREES ENTERTAINMENT JSC</p>
+        </div>
+    </body>
+</html>

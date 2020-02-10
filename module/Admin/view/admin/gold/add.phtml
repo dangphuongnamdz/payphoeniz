@@ -1,0 +1,93 @@
+<div class="col-lg-12">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+label.col-sm-9.controll-label,
+label.col-sm-12.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+    display: block;
+}
+.btn-basic{
+    color: #3D3D3D;
+    font-weight: bolder;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+.divHidden {
+    display: none;
+}
+</style>
+<?php
+ $title = 'Thêm mới gold';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+ <?php
+ $form->setAttribute('action', $this->url('admingold', array('action' => 'add')));
+ $form->prepare();
+
+ echo $this->form()->openTag($form);
+ echo $this->formHidden($form->get('id'));
+ echo $this->formRow($form->get('amount'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('gold'));
+ echo "<div class='clearfix'></div>";
+ echo "<hr>".$this->formRow($form->get('avatar'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('product_id'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('product_gold_id'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('card_month'));
+ echo "<div class='clearfix'></div>";
+ echo "<hr>".$this->formRow($form->get('submit'));
+ echo $this->form()->closeTag();
+ ?>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <br>
+ <script>    CKEDITOR.replace('content');</script>
+ <script>
+    $(document).ready(function() {
+		
+		
+		$("#submitbutton").click(function(){
+		  var card_month = $('select[name="card_month"]').val();	
+		  
+			$("#gold").validate({
+				rules: {
+					amount: {
+						required: true,
+					},
+					gold: {
+						required: card_month!=3,
+					},
+				},
+				messages: {
+					amount: {
+						required: "Vui lòng nhập amount",
+					},
+					gold: {
+						required: "Vui lòng nhập gold",
+					},
+				}
+			});
+		});
+    });    
+ </script>
+ </div>

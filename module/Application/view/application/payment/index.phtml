@@ -1,0 +1,224 @@
+<link rel="stylesheet" href="css/payment.css" type="text/css">
+<div class="tab-Switch">
+    <a href = "javascript:void(0);" class="actived">Nạp thẻ</a>
+    <a href = "/history/cardGetHistory/<?php echo substr(substr($_SERVER['REQUEST_URI'],9,strlen($_SERVER['REQUEST_URI'])),0,-5)?>">Lịch sử ví</a>
+    <a href = "/history/payGetHistory/<?php echo substr(substr($_SERVER['REQUEST_URI'],9,strlen($_SERVER['REQUEST_URI'])),0,-5)?>">Lịch sử game</a>
+</div>
+<?php
+ $title = 'Nạp thẻ '.$this->name;
+ $this->headTitle($title);
+ if ($this->messages!=""){
+    echo '<br><div class="alert alert-info">'.$messages.'</div>';
+ }
+ $form->prepare();
+ echo $this->form()->openTag($form);
+ ?>
+<?php if($this->alert_sucssess){?>
+    <div class="alert alert-info">
+        <?php foreach($this->alert_sucssess as $alert){
+            echo $alert;
+        }?>
+    </div>
+<?php }?>
+ <h2><?php echo $this->name?></h2>
+<div class="qa-message-list" id="wallmessages">
+    <div class="message-item" id="accRole">
+        <div class="message-inner">
+            <div class="message-head clearfix handle-acc-role">
+                <div class="user-detail">
+                    <h5 class="handle">Tài khoản : <?php echo ($this->username!='')?$this->username:'Không tìm thấy username'; ?></h5>
+                    <h6 class="handle">Số dư : <?php echo ($this->balance!='')?number_format($this->balance):0; ?> <u>đ</u></h6>
+                    <input type="hidden" value="<?php echo ($this->balance!='')?$this->balance:0; ?>" name="balance"/>
+                    <input type="hidden" value="<?php echo ($this->id_user!='')?$this->id_user:''; ?>" name="id_user" id="id_user"/>
+					<input type="hidden" value="<?php echo $this->is_amount; ?>" name="amount" id="amount"/>
+					<input type="hidden" value="<?php echo $this->gold_id; ?>" name="gold_id" id="gold_id"/>
+                    <input type="hidden" value="" name="theThang" id="theThang"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="message-item" id="accType">
+        <div class="message-inner">
+            <div class="message-head clearfix">
+                <div class="user-detail">
+                    <h5 class="handle">Chọn phương thức để nạp tiền vào ví</h5>
+                </div>
+            </div>
+            <div class="qa-message-content">
+                <div class="collapse-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" href="#collapseOne" data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne" class="trigger collapsed">
+                            Thẻ cào
+                            </a>
+                        </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne" data-id="Thẻ cào">
+                            <div class="panel-body">
+                                <div class="tab-pane active" id="tab_card_pay">
+									<label for="in_type" class="col-sm-12 controll-label">
+										<span>Loại thẻ</span>
+										<select name="in_type" class="form-control valid" aria-invalid="false">
+											<option value="HPC">HPCode</option>
+											<option value="GATE">GATE</option>
+											<?php if($this->agent!='m003'){?>
+											<option value="VTC">VCOIN</option>
+											<?php } ?>
+										</select>
+									</label>
+                                    <?php
+                                        //echo $this->formRow($form->get('in_type'));
+                                        echo $this->formRow($form->get('in_serie'));
+                                        echo $this->formRow($form->get('in_pin'));?>
+                                    <div class="btn btn-info" id="btnXacnhan" data-id="the-cao">Thanh toán</div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if($this->statusChargeAtm==1){?>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" href="#collapseTwo" data-parent="#accordion" aria-expanded="true" aria-controls="collapseTwo" class="trigger collapsed">
+                            Thẻ ATM/Nội địa/NAPAS
+                            </a>
+                        </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" data-id="Thẻ ATM/Nội địa/NAPAS">
+                        <div class="panel-body">
+                            <div id="tab_card_pay">
+                            <?php 
+                                echo $this->formRow($form->get('amount_pay'));?>
+                                <div class="btn btn-info" id="btnXacnhan" data-id="the-atm">Thanh toán</div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <?php }?>
+                </div>
+            </div>
+            <div class="message-alert"><?php echo $this->messagesSale;?></div>
+        </div>
+    </div>
+    <div class="message-item" id="accGetRole">
+        <div class="message-inner">
+            <div class="message-head clearfix">
+                <div class="user-detail">
+                    <h5 class="handle">Chọn server để nạp tiền vào game</h5>
+                </div>
+            </div>
+            <i class='fa fa-spinner fa-spin' id='loaddingAgent'></i>
+            <div class="qa-message-content content_server">
+                <?php
+                    echo "<div class='divserverList'>";
+                        echo $this->formHidden($form->get('agent'));
+                        //echo $this->formRow($form->get('server_list'));
+						echo '<label for="server_group" class="col-sm-12 controll-label">  Chọn cụm máy chủ:</label>';
+						echo '<select name="server_group" class="form-control " id="server_group"><option value="">Chọn group server</option>';
+						$i=0;
+						$j=1;
+						$dataServers = array();
+						foreach($this->listServers as $key=>$server){
+							$from = strval((($j-1)*10)+1);
+							$to = strval(((($j-1)*10)+10));
+							if(sizeof($this->listServers)==1){
+								$to = '';
+							}else{
+								$to = ' - '.$to;
+							}
+							$group = 'Cụm máy chủ '.$from .$to;
+							if($i%10==0){
+								
+								echo '<option value="'.$j.'">'.$group.'</option>';
+								$j++;
+							}
+							$dataServers[$i]['id'] = $key;
+							$dataServers[$i]['value'] = $server;
+							$i++;
+						}
+						echo "</select>";
+						echo '<label for="server_list" class="col-sm-12 controll-label" >  Chọn server:</label>';
+						echo '<select name="server_list" class="form-control " id="server_list" disabled><option value="">Chọn server</option></select>';
+                    echo "</div>";
+                    echo "<div id='appentHtml'></div>";
+                ?>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="message-item" id="accRang">
+        <div class="message-inner">
+            <div class="message-head clearfix">
+                <div class="user-detail">
+                    <h5 class="handle">Chọn gói vật phẩm</h5>
+					<?php 
+					$goi = '';
+					if($this->agent=='m002'){
+						$goi = 'Gói Nguyên Bảo';
+					}elseif($this->agent=='m003'){
+						$goi = 'Gói Linh Ngọc';
+					}?>
+					<p class="tab" id="coingold"><?php echo $goi; ?></p>
+					<p class="tab" id="coingift">Gói Quà Đặc Biệt</p>
+                </div>
+            </div>
+            <div class="qa-message-content">
+                <div class="form-group resultCoin">	
+                    <div id="showcoingold"></div>
+					<div id="showcoingift"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content clearfix">
+            <h1>Xác nhận giao dịch</h1>
+            <p></p>
+            <?php  
+            $form->get('submit')->setValue('Thanh toán');
+            echo $this->formSubmit($form->get('submit'));?>
+            <div class="clearfix"></div>
+            <span class="close btn-danger">Chấp nhận</span>
+        </div>
+    </div>
+</div>
+<div class="loading"><i class='fa fa-spinner fa-spin'></i></div>
+<script type="text/javascript">
+var agent = '<?php echo $this->agent?>';
+var is_pay = '<?php echo $this->is_pay?>';
+var is_amount = '<?php echo $this->is_amount?>';
+var gold_id = '<?php echo $this->gold_id?>';
+var role_id = '<?php echo $this->role_id?>';
+document.getElementById("server_group").onchange = function() {changeGroupServer(this.value)};
+
+function changeGroupServer(value) {
+	if(value!=''){
+	  var x = document.getElementById("server_list");
+	  x.length=1;
+	  
+	  var data = '<?php echo json_encode($dataServers);?>';
+	  data = JSON.parse(data);
+	  var len = parseInt(value)*10;
+	  var start = len - 10;
+	  if(data.length<len){
+		  len = data.length;
+	  }
+	  for(var i=start;i<len;i++){ 
+		var option = document.createElement("option");
+		  option.text = data[i].value;
+		  option.value = data[i].id;
+		  x.add(option);
+	  }
+	  x.disabled = false;
+	}
+}
+</script>
+
+<?php  
+    echo $this->form()->closeTag();
+    echo $this->headScript()->prependFile($this->basePath() . '/js/payment.js');
+?>

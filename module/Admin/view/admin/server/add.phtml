@@ -1,0 +1,141 @@
+<div class="col-lg-12">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+label.col-sm-9.controll-label,
+label.col-sm-12.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+    display: block;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+#server span {
+    font-size: 12px;
+    display: block;
+}
+
+#server {
+    display: block;
+    min-height: 5em;
+    font-size: 12px;
+}
+
+.btndelete{
+    display: block; 
+    text-align: center; 
+    float: right;
+    margin: 0 1em;
+}
+select.form-control {
+    text-align-last: center;
+}
+input.form-control {
+    text-align: center;
+}
+</style>
+<?php
+
+ $title = 'Thêm mới server';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+ <?php
+ $form->setAttribute('action', $this->url('adminserver', array('action' => 'add')));
+ $form->prepare();
+
+ echo $this->form()->openTag($form);
+ echo $this->formRow($form->get('id'));
+ echo $this->formRow($form->get('server_id'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('server_name'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('key_iap_charge'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('key_web_charge'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('server_status'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('server_slug'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('pay_status'));
+//  echo "<div class='clearfix'></div>";
+//  echo $this->formRow($form->get('server_order'));
+ echo "<div class='clearfix'></div>";
+ echo $this->formRow($form->get('product_id'));
+ echo "<div class='clearfix'></div>";
+ ?>
+ <label for="" class="col-sm-2 controll-label">
+        <span>.</span>
+ <?php echo $this->formSubmit($form->get('submit'));?>
+</label>
+<?php echo $this->form()->closeTag();?>
+<script>
+    $(document).ready(function() {
+        $("#server").validate({
+            rules: {
+                server_id: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 45,
+                },
+                server_name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 45,
+                },
+                server_status: {
+                    required: true,
+                },
+                server_slug: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 45,
+                },
+                pay_status: {
+                    required: true,
+                },
+                product_id: {
+                    required: true,
+                },
+            },
+            messages: {
+                server_id: {
+                    required: "Vui lòng nhập Server id",
+                    minlength: "Vui lòng nhập nhiều hơn 1 ký tự",
+                    maxlength: "Vui lòng nhập ít hơn 45 ký tự"
+                },
+                server_name: {
+                    required: "Vui lòng nhập Server name",
+                    minlength: "Vui lòng nhập nhiều hơn 2 ký tự",
+                    maxlength: "Vui lòng nhập ít hơn 45 ký tự"
+                },
+                server_status: {
+                    required: "Vui lòng nhập Server status",
+                },
+                server_slug: {
+                    required: "Vui lòng nhập Server slug",
+                    minlength: "Vui lòng nhập nhiều hơn 2 ký tự",
+                    maxlength: "Vui lòng nhập ít hơn 45 ký tự"
+                },
+                pay_status: {
+                    required: "Vui lòng chọn Pay Status"
+                },
+                product_id: {
+                    required: "Vui lòng chọn Product"
+                }
+            }
+        });
+    });    
+ </script>
+</div>

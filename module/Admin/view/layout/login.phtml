@@ -1,0 +1,71 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="vi">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('Admin '. $this->translate('Login Page'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                        ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css') ?>
+        
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">        
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+            ->prependFile($this->basePath() . '/js/jquery.min.js')
+        ; ?>
+        <style>
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #eee;
+        }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input[type="text"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <?php echo $this->content; ?>
+        </div>
+    </body>
+</html>

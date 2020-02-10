@@ -1,0 +1,164 @@
+<div class="col-lg-4">
+<style>
+h3 {
+    height: 2em;
+    background: #D2D2D2;
+    line-height: 2em;
+    padding: 0 1em;
+    color: #000;
+}
+
+label.col-sm-9.controll-label,
+label.col-sm-12.controll-label {
+    margin-bottom: 2em;
+    padding: 0;
+    font-size: 13px;
+    display: block;
+}
+.btn-basic{
+    color: #3D3D3D;
+    font-weight: bolder;
+}
+.error {
+    padding: 0.5em 0;
+    color: red;
+    font-weight: normal;
+}
+</style>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item" aria-current="page"><a href="/admin/gamer/info">Thông tin user passport</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Chỉnh sửa thông tin user passport</li>
+  </ol>
+</nav>
+<?php
+ $title = 'Chỉnh sửa thông tin user passport';
+ $this->headTitle($title);
+ ?>
+ <h3><?php echo $this->escapeHtml($title); ?></h3>
+ <?php
+    if ($this->error!=""){
+        echo '<br><div class="alert alert-danger">';
+            echo $this->error;
+        echo '</div>';
+    }
+    if ($this->success!=""){
+        echo '<br><div class="alert alert-success">';
+            echo $this->success;
+        echo '</div>';
+    }
+ ?>
+ <form method="post" id="forgetpassword" name="forgetpassword">
+  <div class="form-group">
+    <label for="username">Tài khoản</label>
+    <input type="text" class="form-control" id="username" value="<?php echo $result->username?>" name="username" readonly="true">
+  </div>
+  <div class="form-group">
+    <label for="username">Email</label>
+    <input type="text" class="form-control" id="email" value="<?php echo $result->email?>" name="email">
+  </div>
+  <div class="form-group">
+    <label for="username">Họ tên</label>
+    <input type="text" class="form-control" id="fullname" value="<?php echo $result->fullname?>" name="fullname">
+  </div>
+  <div class="form-group">
+    <label for="username">Ngày sinh</label>
+    <input type="date" class="form-control" id="birthday" value="<?php echo $result->birthday?>" name="birthday">
+  </div>
+  <div class="form-group">
+    <label for="username">Giới tính</label>
+    <select class="form-control" id="sex" name="sex">
+        <option value="1" <?php if($result->sex==1) echo 'selected'?>>Nam</option>
+        <option value="2" <?php if($result->sex!=1) echo 'selected'?>>Nữ</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="username">Số CMND</label>
+    <input type="text" class="form-control" id="identityNumber" value="<?php echo $result->identityNumber?>" name="identityNumber">
+  </div>
+  <div class="form-group">
+    <label for="username">Ngày cấp CMND</label>
+    <input type="date" class="form-control" id="identityDate" value="<?php echo $result->identityDate?>" name="identityDate">
+  </div>
+  <div class="form-group">
+    <label for="username">Nơi cấp CMND</label>
+    <input type="text" class="form-control" id="identityPlace" value="<?php echo $result->identityPlace?>" name="identityPlace">
+  </div>
+  <div class="form-group">
+    <label for="username">Số điện thoại</label>
+    <input type="text" class="form-control" id="mobile" value="<?php echo $result->mobile?>" name="mobile">
+  </div>
+  <div class="form-group">
+    <label for="username">Địa chỉ</label>
+    <input type="text" class="form-control" id="address" value="<?php echo $result->address?>" name="address">
+  </div>
+  <div class="form-group">
+    <label for="username">Thành phố</label>
+    <select class="form-control" id="city" name="city">
+    <?php 
+        $str = file_get_contents('./data/city.json');
+        $json = json_decode($str, true);
+        $namecity = '';
+        foreach ($json as  $person_a) {?>
+            <option value="<?php echo $person_a['code']?>" <?php if($person_a['code']===$result->city) echo 'selected'?>><?php echo $person_a['name']?></option>
+        <?php }
+    ?>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="username">Tên công ty</label>
+    <input type="text" class="form-control" id="company" value="<?php echo $result->company?>" name="company">
+  </div>
+  <div class="form-group">
+    <label for="username">Địa chỉ công ty</label>
+    <input type="text" class="form-control" id="companyAddress" value="<?php echo $result->companyAddress?>" name="companyAddress">
+  </div>
+  <button type="submit" class="btn btn-basic">Xác nhận</button>
+</form>
+ <br>
+ <div class="clearfix"></div>
+<?php
+ if ($this->messages!=""){
+    echo '<br><div class="alert alert-danger">'.$messages.'</div>';
+}
+?>
+ <br>
+ <script>
+    $(document).ready(function() {
+        $("#forgetpassword").validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 24,
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                },
+                repassword: {
+                    required: true,
+                    equalTo: "input[name=password]",
+                    minlength: 5
+                }
+            },
+            messages: {
+                username: {
+                    required: "Vui lòng nhập username",
+                    minlength: "Vui lòng nhập nhiều hơn 6 ký tự",
+                    maxlength: "Vui lòng nhập ít hơn 24 ký tự"
+                },
+                password: {
+                    required: 'Vui lòng nhập mật khẩu',
+                    minlength: 'Vui lòng nhập ít nhất 5 kí tự'
+                },
+                repassword: {
+                    required: 'Vui lòng nhập mật khẩu',
+                    minlength: 'Vui lòng nhập ít nhất 5 kí tự',
+                    equalTo:   'Xác nhận mật khẩu mới không chính xác'
+                }
+            }
+        });
+    });    
+ </script>
+ </div>
